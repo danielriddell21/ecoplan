@@ -1,0 +1,178 @@
+{
+  "_meta": {
+    "source": "Portsmouth City Council",
+    "url": "https://www.portsmouth.gov.uk/services/environment-and-planning/bins-and-recycling/",
+    "last_verified": "2026-03-20"
+  },
+  "materials": {
+    "plastic_bottle": {
+      "label": "Plastic Bottles (PET / HDPE)",
+      "examples": ["water bottle", "fizzy drink bottle", "milk bottle", "shampoo bottle", "washing up liquid bottle"],
+      "recyclable": "yes",
+      "bin": "green",
+      "tips": "Rinse out and squash flat. Leave lids on."
+    },
+    "plastic_tub": {
+      "label": "Plastic Tubs, Trays & Pots",
+      "examples": ["yoghurt pot", "margarine tub", "ready meal tray", "fruit punnet", "takeaway container (clear)"],
+      "recyclable": "yes",
+      "bin": "green",
+      "tips": "Rinse clean before recycling."
+    },
+    "plastic_black": {
+      "label": "Black Plastic",
+      "examples": ["black ready meal tray", "black takeaway container", "black bin liner"],
+      "recyclable": "no",
+      "bin": "black",
+      "tips": "Black plastic cannot be sorted by recycling machinery. Put it in the black bin."
+    },
+    "plastic_bag": {
+      "label": "Plastic Bags & Film",
+      "examples": ["carrier bag", "bread bag", "cling film", "bubble wrap", "crisp bag", "freezer bag"],
+      "recyclable": "no",
+      "bin": "black",
+      "tips": "Some supermarkets (Tesco, Sainsbury's) have soft plastic collection points."
+    },
+    "polystyrene": {
+      "label": "Polystyrene",
+      "examples": ["polystyrene packaging", "foam cup", "foam food container", "packing peanuts"],
+      "recyclable": "no",
+      "bin": "black",
+      "tips": "Not accepted in Portsmouth green bins."
+    },
+    "glass_bottle": {
+      "label": "Glass Bottles & Jars",
+      "examples": ["wine bottle", "beer bottle", "jam jar", "sauce jar", "pickle jar"],
+      "recyclable": "yes",
+      "bin": "blue",
+      "tips": "Rinse clean. Lids can go in the green bin separately."
+    },
+    "glass_other": {
+      "label": "Non-bottle Glass (Pyrex, Ceramics, Drinking Glasses)",
+      "examples": ["drinking glass", "Pyrex dish", "mug", "plate", "mirror", "window glass"],
+      "recyclable": "no",
+      "bin": "black",
+      "tips": "Different composition to bottle glass - cannot go in the green bin. Wrap broken glass carefully."
+    },
+    "tin_can": {
+      "label": "Tins & Cans",
+      "examples": ["baked bean tin", "soup can", "tuna can", "aluminium drinks can", "beer can", "food tin"],
+      "recyclable": "yes",
+      "bin": "green",
+      "tips": "Rinse clean. Squash cans to save space."
+    },
+    "foil": {
+      "label": "Aluminium Foil & Foil Trays",
+      "examples": ["kitchen foil", "foil tray", "foil pie dish"],
+      "recyclable": "yes",
+      "bin": "green",
+      "tips": "Scrunch into a ball - must be clean and free of food."
+    },
+    "paper": {
+      "label": "Paper",
+      "examples": ["newspaper", "magazine", "office paper", "junk mail", "envelopes", "shredded paper"],
+      "recyclable": "yes",
+      "bin": "green",
+      "tips": "Put shredded paper in a sealed paper bag so it doesn't blow around."
+    },
+    "cardboard": {
+      "label": "Cardboard",
+      "examples": ["cereal box", "cardboard packaging", "egg box", "toilet roll tube", "pizza box (clean)"],
+      "recyclable": "yes",
+      "bin": "green",
+      "tips": "Flatten boxes. Pizza boxes are fine if not heavily soiled with grease."
+    },
+    "cardboard_soiled": {
+      "label": "Soiled Cardboard / Paper",
+      "examples": ["greasy pizza box", "food-stained paper", "used paper towels", "tissues"],
+      "recyclable": "no",
+      "bin": "black",
+      "tips": "Food contamination prevents recycling."
+    },
+    "crisp_packet": {
+      "label": "Crisp Packets & Snack Wrappers",
+      "examples": ["crisp packet", "chocolate bar wrapper", "sweet wrapper", "foil pouch"],
+      "recyclable": "no",
+      "bin": "black",
+      "tips": "Multi-layer packaging cannot be recycled kerbside."
+    },
+    "tetra_pak": {
+      "label": "Cartons (Tetra Pak)",
+      "examples": ["juice carton", "milk carton", "soup carton", "oat milk carton"],
+      "recyclable": "yes",
+      "bin": "green",
+      "tips": "Rinse clean and flatten."
+    },
+    "battery": {
+      "label": "Batteries",
+      "examples": ["AA battery", "AAA battery", "9V battery", "button cell", "rechargeable battery"],
+      "recyclable": "check_locally",
+      "bin": "recycling_centre",
+      "tips": "Never put batteries in any bin - fire risk. Drop off at supermarkets or Portsmouth recycling centre."
+    },
+    "electrical_small": {
+      "label": "Small Electrical Items (WEEE)",
+      "examples": ["phone", "toaster", "hairdryer", "kettle", "radio", "cables", "earphones"],
+      "recyclable": "check_locally",
+      "bin": "recycling_centre",
+      "tips": "Take to Portsmouth Household Waste Recycling Centre or electrical retailers with WEEE take-back."
+    },
+    "clothing": {
+      "label": "Textiles & Clothing",
+      "examples": ["clothes", "shoes", "bedding", "towels", "curtains"],
+      "recyclable": "check_locally",
+      "bin": "recycling_centre",
+      "tips": "Donate good condition items to charity shops. Worn textiles go to recycling centre textile banks."
+    },
+    "food_waste": {
+      "label": "Food Waste",
+      "examples": ["leftovers", "vegetable peelings", "fruit", "meat", "fish", "dairy"],
+      "recyclable": "no",
+      "bin": "black",
+      "tips": "Portsmouth does not have a separate food waste collection. Home composting is encouraged for veg/fruit."
+    },
+    "nappy": {
+      "label": "Nappies & Hygiene Waste",
+      "examples": ["nappy", "sanitary product", "cotton wool", "plaster"],
+      "recyclable": "no",
+      "bin": "black",
+      "tips": "Wrap securely before placing in the black bin."
+    },
+    "aerosol": {
+      "label": "Aerosols",
+      "examples": ["deodorant", "hairspray", "spray paint", "air freshener"],
+      "recyclable": "yes",
+      "bin": "green",
+      "tips": "Ensure completely empty before recycling. Do not pierce or crush."
+    },
+    "metal_scrap": {
+      "label": "Scrap Metal / Large Metal Items",
+      "examples": ["pots and pans", "metal tools", "bike frame"],
+      "recyclable": "check_locally",
+      "bin": "recycling_centre",
+      "tips": "Take to Portsmouth Household Waste Recycling Centre - scrap metal is accepted."
+    }
+  },
+  "bins": {
+    "green": {
+      "label": "Green Bin",
+      "description": "Portsmouth kerbside recycling collection",
+      "collection": "Fortnightly"
+    },
+    "blue": {
+      "label": "Blue Bin",
+      "description": "Glass only kerbside collection",
+      "collection": "Fortnightly"
+    },
+    "black": {
+      "label": "Black Bin",
+      "description": "General waste - goes to landfill or energy recovery",
+      "collection": "Fortnightly"
+    },
+    "recycling_centre": {
+      "label": "Recycling Centre",
+      "description": "Portsmouth Household Waste Recycling Centre, Binnacle Way, Portsmouth, PO6 3TQ",
+      "url": "https://www.portsmouth.gov.uk/services/environment-and-planning/bins-and-recycling/household-waste-recycling-centre/"
+    }
+  }
+}
