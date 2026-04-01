@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             (unknown)
-// source: recycling.proto
+// source: recycling/v1/recycling.proto
 
 package proto
 
@@ -19,16 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	RecyclingService_CanItBeRecycled_FullMethodName       = "/recycling.RecyclingService/CanItBeRecycled"
-	RecyclingService_CanItBeRecycledSearch_FullMethodName = "/recycling.RecyclingService/CanItBeRecycledSearch"
-	RecyclingService_CanItBeRecycledImage_FullMethodName  = "/recycling.RecyclingService/CanItBeRecycledImage"
+	RecyclingService_CanItBeRecycledBarcode_FullMethodName = "/recycling.v1.RecyclingService/CanItBeRecycledBarcode"
+	RecyclingService_CanItBeRecycledSearch_FullMethodName  = "/recycling.v1.RecyclingService/CanItBeRecycledSearch"
+	RecyclingService_CanItBeRecycledImage_FullMethodName   = "/recycling.v1.RecyclingService/CanItBeRecycledImage"
 )
 
 // RecyclingServiceClient is the client API for RecyclingService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RecyclingServiceClient interface {
-	CanItBeRecycled(ctx context.Context, in *CanItBeRecycledRequest, opts ...grpc.CallOption) (*CanItBeRecycledResponse, error)
+	CanItBeRecycledBarcode(ctx context.Context, in *CanItBeRecycledBarcodeRequest, opts ...grpc.CallOption) (*CanItBeRecycledBarcodeResponse, error)
 	CanItBeRecycledSearch(ctx context.Context, in *CanItBeRecycledSearchRequest, opts ...grpc.CallOption) (*CanItBeRecycledSearchResponse, error)
 	CanItBeRecycledImage(ctx context.Context, in *CanItBeRecycledImageRequest, opts ...grpc.CallOption) (*CanItBeRecycledImageResponse, error)
 }
@@ -41,10 +41,10 @@ func NewRecyclingServiceClient(cc grpc.ClientConnInterface) RecyclingServiceClie
 	return &recyclingServiceClient{cc}
 }
 
-func (c *recyclingServiceClient) CanItBeRecycled(ctx context.Context, in *CanItBeRecycledRequest, opts ...grpc.CallOption) (*CanItBeRecycledResponse, error) {
+func (c *recyclingServiceClient) CanItBeRecycledBarcode(ctx context.Context, in *CanItBeRecycledBarcodeRequest, opts ...grpc.CallOption) (*CanItBeRecycledBarcodeResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CanItBeRecycledResponse)
-	err := c.cc.Invoke(ctx, RecyclingService_CanItBeRecycled_FullMethodName, in, out, cOpts...)
+	out := new(CanItBeRecycledBarcodeResponse)
+	err := c.cc.Invoke(ctx, RecyclingService_CanItBeRecycledBarcode_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (c *recyclingServiceClient) CanItBeRecycledImage(ctx context.Context, in *C
 // All implementations must embed UnimplementedRecyclingServiceServer
 // for forward compatibility.
 type RecyclingServiceServer interface {
-	CanItBeRecycled(context.Context, *CanItBeRecycledRequest) (*CanItBeRecycledResponse, error)
+	CanItBeRecycledBarcode(context.Context, *CanItBeRecycledBarcodeRequest) (*CanItBeRecycledBarcodeResponse, error)
 	CanItBeRecycledSearch(context.Context, *CanItBeRecycledSearchRequest) (*CanItBeRecycledSearchResponse, error)
 	CanItBeRecycledImage(context.Context, *CanItBeRecycledImageRequest) (*CanItBeRecycledImageResponse, error)
 	mustEmbedUnimplementedRecyclingServiceServer()
@@ -88,8 +88,8 @@ type RecyclingServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedRecyclingServiceServer struct{}
 
-func (UnimplementedRecyclingServiceServer) CanItBeRecycled(context.Context, *CanItBeRecycledRequest) (*CanItBeRecycledResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method CanItBeRecycled not implemented")
+func (UnimplementedRecyclingServiceServer) CanItBeRecycledBarcode(context.Context, *CanItBeRecycledBarcodeRequest) (*CanItBeRecycledBarcodeResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CanItBeRecycledBarcode not implemented")
 }
 func (UnimplementedRecyclingServiceServer) CanItBeRecycledSearch(context.Context, *CanItBeRecycledSearchRequest) (*CanItBeRecycledSearchResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CanItBeRecycledSearch not implemented")
@@ -118,20 +118,20 @@ func RegisterRecyclingServiceServer(s grpc.ServiceRegistrar, srv RecyclingServic
 	s.RegisterService(&RecyclingService_ServiceDesc, srv)
 }
 
-func _RecyclingService_CanItBeRecycled_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CanItBeRecycledRequest)
+func _RecyclingService_CanItBeRecycledBarcode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CanItBeRecycledBarcodeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RecyclingServiceServer).CanItBeRecycled(ctx, in)
+		return srv.(RecyclingServiceServer).CanItBeRecycledBarcode(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RecyclingService_CanItBeRecycled_FullMethodName,
+		FullMethod: RecyclingService_CanItBeRecycledBarcode_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RecyclingServiceServer).CanItBeRecycled(ctx, req.(*CanItBeRecycledRequest))
+		return srv.(RecyclingServiceServer).CanItBeRecycledBarcode(ctx, req.(*CanItBeRecycledBarcodeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -176,12 +176,12 @@ func _RecyclingService_CanItBeRecycledImage_Handler(srv interface{}, ctx context
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var RecyclingService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "recycling.RecyclingService",
+	ServiceName: "recycling.v1.RecyclingService",
 	HandlerType: (*RecyclingServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CanItBeRecycled",
-			Handler:    _RecyclingService_CanItBeRecycled_Handler,
+			MethodName: "CanItBeRecycledBarcode",
+			Handler:    _RecyclingService_CanItBeRecycledBarcode_Handler,
 		},
 		{
 			MethodName: "CanItBeRecycledSearch",
@@ -193,5 +193,5 @@ var RecyclingService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "recycling.proto",
+	Metadata: "recycling/v1/recycling.proto",
 }

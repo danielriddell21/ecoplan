@@ -1,27 +1,26 @@
 syntax = "proto3";
 
-package recycling;
+package recycling.v1;
 
 import "google/api/annotations.proto";
 
 option go_package = "github.com/ecoscan/service/proto";
 
-// RecyclingItem describes how to dispose of a single item.
 message RecyclingItem {
   enum BinColour {
-    BIN_COLOUR_UNKNOWN = 0;
-    BLUE = 1;
-    GREEN = 2;
-    BROWN = 3;
-    BLACK = 4;
+    BIN_COLOUR_UNSPECIFIED = 0;
+    BIN_COLOUR_BLUE = 1;
+    BIN_COLOUR_GREEN = 2;
+    BIN_COLOUR_BROWN = 3;
+    BIN_COLOUR_BLACK = 4;
   }
 
   enum BinType {
-    BIN_TYPE_UNKNOWN = 0;
-    PAPER = 1;
-    RECYCLING = 2;
-    GLASS = 3;
-    WASTE = 4;
+    BIN_TYPE_UNSPECIFIED = 0;
+    BIN_TYPE_PAPER = 1;
+    BIN_TYPE_RECYCLING = 2;
+    BIN_TYPE_GLASS = 3;
+    BIN_TYPE_WASTE = 4;
   }
 
   bool recyclable = 1;
@@ -30,20 +29,17 @@ message RecyclingItem {
   BinType bin_type = 4;
 }
 
-// CanItBeRecycled — barcode lookup
-message CanItBeRecycledRequest {
+message CanItBeRecycledBarcodeRequest {
   string barcode = 1;
-  // council_id identifies the local authority. Defaults to "portsmouth" if empty.
   string council_id = 2;
 }
 
-message CanItBeRecycledResponse {
+message CanItBeRecycledBarcodeResponse {
   RecyclingItem data = 1;
   string product_name = 2;
   string brand = 3;
 }
 
-// CanItBeRecycledSearch — text search
 message CanItBeRecycledSearchRequest {
   string query = 1;
   string council_id = 2;
@@ -53,7 +49,6 @@ message CanItBeRecycledSearchResponse {
   repeated RecyclingItem data = 1;
 }
 
-// CanItBeRecycledImage — AI image classification
 message CanItBeRecycledImageRequest {
   bytes image = 1;
   string council_id = 2;
@@ -64,7 +59,7 @@ message CanItBeRecycledImageResponse {
 }
 
 service RecyclingService {
-  rpc CanItBeRecycled(CanItBeRecycledRequest) returns (CanItBeRecycledResponse) {
+  rpc CanItBeRecycledBarcode(CanItBeRecycledBarcodeRequest) returns (CanItBeRecycledBarcodeResponse) {
     option (google.api.http) = {
       post: "/v1/recycle/barcode"
       body: "*"

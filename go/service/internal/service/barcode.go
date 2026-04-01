@@ -15,7 +15,7 @@ import (
 
 var barcodeRE = regexp.MustCompile(`^\d{8,14}$`)
 
-func (s *RecyclingServiceServer) CanItBeRecycled(ctx context.Context, req *pb.CanItBeRecycledRequest) (*pb.CanItBeRecycledResponse, error) {
+func (s *RecyclingServiceServer) CanItBeRecycledBarcode(ctx context.Context, req *pb.CanItBeRecycledBarcodeRequest) (*pb.CanItBeRecycledBarcodeResponse, error) {
 	barcode := req.GetBarcode()
 
 	// Validate barcode: 8–14 digits only.
@@ -47,10 +47,10 @@ func (s *RecyclingServiceServer) CanItBeRecycled(ctx context.Context, req *pb.Ca
 	return s.buildBarcodeResponse(result), nil
 }
 
-func (s *RecyclingServiceServer) buildBarcodeResponse(result providers.BarcodeResult) *pb.CanItBeRecycledResponse {
+func (s *RecyclingServiceServer) buildBarcodeResponse(result providers.BarcodeResult) *pb.CanItBeRecycledBarcodeResponse {
 	materials := s.db.LookupMaterials(result.PackagingTags)
 	if len(materials) == 0 {
-		return &pb.CanItBeRecycledResponse{
+		return &pb.CanItBeRecycledBarcodeResponse{
 			ProductName: result.ProductName,
 			Brand:       result.Brand,
 			Data: &pb.RecyclingItem{
@@ -62,7 +62,7 @@ func (s *RecyclingServiceServer) buildBarcodeResponse(result providers.BarcodeRe
 
 	// Use the first matched material as the primary result.
 	m := materials[0]
-	return &pb.CanItBeRecycledResponse{
+	return &pb.CanItBeRecycledBarcodeResponse{
 		ProductName: result.ProductName,
 		Brand:       result.Brand,
 		Data: &pb.RecyclingItem{

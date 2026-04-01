@@ -52,7 +52,7 @@ func run() error {
 			middleware.UnaryAuth(cfg.APIKey),
 			middleware.UnaryRateLimit(
 				100,
-				"/recycling.RecyclingService/CanItBeRecycledImage",
+				"/recycling.v1.RecyclingService/CanItBeRecycledImage",
 				10,
 			),
 		),
@@ -62,7 +62,7 @@ func run() error {
 
 	healthSvc := health.NewServer()
 	grpc_health_v1.RegisterHealthServer(grpcServer, healthSvc)
-	healthSvc.SetServingStatus("recycling.RecyclingService", grpc_health_v1.HealthCheckResponse_SERVING)
+	healthSvc.SetServingStatus("recycling.v1.RecyclingService", grpc_health_v1.HealthCheckResponse_SERVING)
 
 	go func() {
 		mux := http.NewServeMux()

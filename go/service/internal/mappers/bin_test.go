@@ -12,12 +12,12 @@ func TestToBinColour(t *testing.T) {
 		input string
 		want  pb.RecyclingItem_BinColour
 	}{
-		{"blue", pb.RecyclingItem_BLUE},
-		{"green", pb.RecyclingItem_GREEN},
-		{"brown", pb.RecyclingItem_BROWN},
-		{"black", pb.RecyclingItem_BLACK},
-		{"unknown", pb.RecyclingItem_BIN_COLOUR_UNKNOWN},
-		{"", pb.RecyclingItem_BIN_COLOUR_UNKNOWN},
+		{"blue", pb.RecyclingItem_BIN_COLOUR_BLUE},
+		{"green", pb.RecyclingItem_BIN_COLOUR_GREEN},
+		{"brown", pb.RecyclingItem_BIN_COLOUR_BROWN},
+		{"black", pb.RecyclingItem_BIN_COLOUR_BLACK},
+		{"unknown", pb.RecyclingItem_BIN_COLOUR_UNSPECIFIED},
+		{"", pb.RecyclingItem_BIN_COLOUR_UNSPECIFIED},
 	}
 	for _, tc := range cases {
 		got := mappers.ToBinColour(tc.input)
@@ -32,12 +32,12 @@ func TestToBinType(t *testing.T) {
 		input string
 		want  pb.RecyclingItem_BinType
 	}{
-		{"blue", pb.RecyclingItem_GLASS},
-		{"green", pb.RecyclingItem_RECYCLING},
-		{"brown", pb.RecyclingItem_PAPER},
-		{"black", pb.RecyclingItem_WASTE},
-		{"unknown", pb.RecyclingItem_BIN_TYPE_UNKNOWN},
-		{"", pb.RecyclingItem_BIN_TYPE_UNKNOWN},
+		{"blue", pb.RecyclingItem_BIN_TYPE_GLASS},
+		{"green", pb.RecyclingItem_BIN_TYPE_RECYCLING},
+		{"brown", pb.RecyclingItem_BIN_TYPE_PAPER},
+		{"black", pb.RecyclingItem_BIN_TYPE_WASTE},
+		{"unknown", pb.RecyclingItem_BIN_TYPE_UNSPECIFIED},
+		{"", pb.RecyclingItem_BIN_TYPE_UNSPECIFIED},
 	}
 	for _, tc := range cases {
 		got := mappers.ToBinType(tc.input)

@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        (unknown)
-// source: recycling.proto
+// source: recycling/v1/recycling.proto
 
 package proto
 
@@ -25,28 +25,28 @@ const (
 type RecyclingItem_BinColour int32
 
 const (
-	RecyclingItem_BIN_COLOUR_UNKNOWN RecyclingItem_BinColour = 0
-	RecyclingItem_BLUE               RecyclingItem_BinColour = 1
-	RecyclingItem_GREEN              RecyclingItem_BinColour = 2
-	RecyclingItem_BROWN              RecyclingItem_BinColour = 3
-	RecyclingItem_BLACK              RecyclingItem_BinColour = 4
+	RecyclingItem_BIN_COLOUR_UNSPECIFIED RecyclingItem_BinColour = 0
+	RecyclingItem_BIN_COLOUR_BLUE        RecyclingItem_BinColour = 1
+	RecyclingItem_BIN_COLOUR_GREEN       RecyclingItem_BinColour = 2
+	RecyclingItem_BIN_COLOUR_BROWN       RecyclingItem_BinColour = 3
+	RecyclingItem_BIN_COLOUR_BLACK       RecyclingItem_BinColour = 4
 )
 
 // Enum value maps for RecyclingItem_BinColour.
 var (
 	RecyclingItem_BinColour_name = map[int32]string{
-		0: "BIN_COLOUR_UNKNOWN",
-		1: "BLUE",
-		2: "GREEN",
-		3: "BROWN",
-		4: "BLACK",
+		0: "BIN_COLOUR_UNSPECIFIED",
+		1: "BIN_COLOUR_BLUE",
+		2: "BIN_COLOUR_GREEN",
+		3: "BIN_COLOUR_BROWN",
+		4: "BIN_COLOUR_BLACK",
 	}
 	RecyclingItem_BinColour_value = map[string]int32{
-		"BIN_COLOUR_UNKNOWN": 0,
-		"BLUE":               1,
-		"GREEN":              2,
-		"BROWN":              3,
-		"BLACK":              4,
+		"BIN_COLOUR_UNSPECIFIED": 0,
+		"BIN_COLOUR_BLUE":        1,
+		"BIN_COLOUR_GREEN":       2,
+		"BIN_COLOUR_BROWN":       3,
+		"BIN_COLOUR_BLACK":       4,
 	}
 )
 
@@ -61,11 +61,11 @@ func (x RecyclingItem_BinColour) String() string {
 }
 
 func (RecyclingItem_BinColour) Descriptor() protoreflect.EnumDescriptor {
-	return file_recycling_proto_enumTypes[0].Descriptor()
+	return file_recycling_v1_recycling_proto_enumTypes[0].Descriptor()
 }
 
 func (RecyclingItem_BinColour) Type() protoreflect.EnumType {
-	return &file_recycling_proto_enumTypes[0]
+	return &file_recycling_v1_recycling_proto_enumTypes[0]
 }
 
 func (x RecyclingItem_BinColour) Number() protoreflect.EnumNumber {
@@ -74,34 +74,34 @@ func (x RecyclingItem_BinColour) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use RecyclingItem_BinColour.Descriptor instead.
 func (RecyclingItem_BinColour) EnumDescriptor() ([]byte, []int) {
-	return file_recycling_proto_rawDescGZIP(), []int{0, 0}
+	return file_recycling_v1_recycling_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type RecyclingItem_BinType int32
 
 const (
-	RecyclingItem_BIN_TYPE_UNKNOWN RecyclingItem_BinType = 0
-	RecyclingItem_PAPER            RecyclingItem_BinType = 1
-	RecyclingItem_RECYCLING        RecyclingItem_BinType = 2
-	RecyclingItem_GLASS            RecyclingItem_BinType = 3
-	RecyclingItem_WASTE            RecyclingItem_BinType = 4
+	RecyclingItem_BIN_TYPE_UNSPECIFIED RecyclingItem_BinType = 0
+	RecyclingItem_BIN_TYPE_PAPER       RecyclingItem_BinType = 1
+	RecyclingItem_BIN_TYPE_RECYCLING   RecyclingItem_BinType = 2
+	RecyclingItem_BIN_TYPE_GLASS       RecyclingItem_BinType = 3
+	RecyclingItem_BIN_TYPE_WASTE       RecyclingItem_BinType = 4
 )
 
 // Enum value maps for RecyclingItem_BinType.
 var (
 	RecyclingItem_BinType_name = map[int32]string{
-		0: "BIN_TYPE_UNKNOWN",
-		1: "PAPER",
-		2: "RECYCLING",
-		3: "GLASS",
-		4: "WASTE",
+		0: "BIN_TYPE_UNSPECIFIED",
+		1: "BIN_TYPE_PAPER",
+		2: "BIN_TYPE_RECYCLING",
+		3: "BIN_TYPE_GLASS",
+		4: "BIN_TYPE_WASTE",
 	}
 	RecyclingItem_BinType_value = map[string]int32{
-		"BIN_TYPE_UNKNOWN": 0,
-		"PAPER":            1,
-		"RECYCLING":        2,
-		"GLASS":            3,
-		"WASTE":            4,
+		"BIN_TYPE_UNSPECIFIED": 0,
+		"BIN_TYPE_PAPER":       1,
+		"BIN_TYPE_RECYCLING":   2,
+		"BIN_TYPE_GLASS":       3,
+		"BIN_TYPE_WASTE":       4,
 	}
 )
 
@@ -116,11 +116,11 @@ func (x RecyclingItem_BinType) String() string {
 }
 
 func (RecyclingItem_BinType) Descriptor() protoreflect.EnumDescriptor {
-	return file_recycling_proto_enumTypes[1].Descriptor()
+	return file_recycling_v1_recycling_proto_enumTypes[1].Descriptor()
 }
 
 func (RecyclingItem_BinType) Type() protoreflect.EnumType {
-	return &file_recycling_proto_enumTypes[1]
+	return &file_recycling_v1_recycling_proto_enumTypes[1]
 }
 
 func (x RecyclingItem_BinType) Number() protoreflect.EnumNumber {
@@ -129,23 +129,22 @@ func (x RecyclingItem_BinType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use RecyclingItem_BinType.Descriptor instead.
 func (RecyclingItem_BinType) EnumDescriptor() ([]byte, []int) {
-	return file_recycling_proto_rawDescGZIP(), []int{0, 1}
+	return file_recycling_v1_recycling_proto_rawDescGZIP(), []int{0, 1}
 }
 
-// RecyclingItem describes how to dispose of a single item.
 type RecyclingItem struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
 	Recyclable    bool                    `protobuf:"varint,1,opt,name=recyclable,proto3" json:"recyclable,omitempty"`
 	Advice        string                  `protobuf:"bytes,2,opt,name=advice,proto3" json:"advice,omitempty"`
-	BinColour     RecyclingItem_BinColour `protobuf:"varint,3,opt,name=bin_colour,json=binColour,proto3,enum=recycling.RecyclingItem_BinColour" json:"bin_colour,omitempty"`
-	BinType       RecyclingItem_BinType   `protobuf:"varint,4,opt,name=bin_type,json=binType,proto3,enum=recycling.RecyclingItem_BinType" json:"bin_type,omitempty"`
+	BinColour     RecyclingItem_BinColour `protobuf:"varint,3,opt,name=bin_colour,json=binColour,proto3,enum=recycling.v1.RecyclingItem_BinColour" json:"bin_colour,omitempty"`
+	BinType       RecyclingItem_BinType   `protobuf:"varint,4,opt,name=bin_type,json=binType,proto3,enum=recycling.v1.RecyclingItem_BinType" json:"bin_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RecyclingItem) Reset() {
 	*x = RecyclingItem{}
-	mi := &file_recycling_proto_msgTypes[0]
+	mi := &file_recycling_v1_recycling_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -157,7 +156,7 @@ func (x *RecyclingItem) String() string {
 func (*RecyclingItem) ProtoMessage() {}
 
 func (x *RecyclingItem) ProtoReflect() protoreflect.Message {
-	mi := &file_recycling_proto_msgTypes[0]
+	mi := &file_recycling_v1_recycling_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -170,7 +169,7 @@ func (x *RecyclingItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecyclingItem.ProtoReflect.Descriptor instead.
 func (*RecyclingItem) Descriptor() ([]byte, []int) {
-	return file_recycling_proto_rawDescGZIP(), []int{0}
+	return file_recycling_v1_recycling_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *RecyclingItem) GetRecyclable() bool {
@@ -191,41 +190,39 @@ func (x *RecyclingItem) GetBinColour() RecyclingItem_BinColour {
 	if x != nil {
 		return x.BinColour
 	}
-	return RecyclingItem_BIN_COLOUR_UNKNOWN
+	return RecyclingItem_BIN_COLOUR_UNSPECIFIED
 }
 
 func (x *RecyclingItem) GetBinType() RecyclingItem_BinType {
 	if x != nil {
 		return x.BinType
 	}
-	return RecyclingItem_BIN_TYPE_UNKNOWN
+	return RecyclingItem_BIN_TYPE_UNSPECIFIED
 }
 
-// CanItBeRecycled — barcode lookup
-type CanItBeRecycledRequest struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
-	Barcode string                 `protobuf:"bytes,1,opt,name=barcode,proto3" json:"barcode,omitempty"`
-	// council_id identifies the local authority. Defaults to "portsmouth" if empty.
-	CouncilId     string `protobuf:"bytes,2,opt,name=council_id,json=councilId,proto3" json:"council_id,omitempty"`
+type CanItBeRecycledBarcodeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Barcode       string                 `protobuf:"bytes,1,opt,name=barcode,proto3" json:"barcode,omitempty"`
+	CouncilId     string                 `protobuf:"bytes,2,opt,name=council_id,json=councilId,proto3" json:"council_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CanItBeRecycledRequest) Reset() {
-	*x = CanItBeRecycledRequest{}
-	mi := &file_recycling_proto_msgTypes[1]
+func (x *CanItBeRecycledBarcodeRequest) Reset() {
+	*x = CanItBeRecycledBarcodeRequest{}
+	mi := &file_recycling_v1_recycling_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CanItBeRecycledRequest) String() string {
+func (x *CanItBeRecycledBarcodeRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CanItBeRecycledRequest) ProtoMessage() {}
+func (*CanItBeRecycledBarcodeRequest) ProtoMessage() {}
 
-func (x *CanItBeRecycledRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_recycling_proto_msgTypes[1]
+func (x *CanItBeRecycledBarcodeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_recycling_v1_recycling_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -236,26 +233,26 @@ func (x *CanItBeRecycledRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CanItBeRecycledRequest.ProtoReflect.Descriptor instead.
-func (*CanItBeRecycledRequest) Descriptor() ([]byte, []int) {
-	return file_recycling_proto_rawDescGZIP(), []int{1}
+// Deprecated: Use CanItBeRecycledBarcodeRequest.ProtoReflect.Descriptor instead.
+func (*CanItBeRecycledBarcodeRequest) Descriptor() ([]byte, []int) {
+	return file_recycling_v1_recycling_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CanItBeRecycledRequest) GetBarcode() string {
+func (x *CanItBeRecycledBarcodeRequest) GetBarcode() string {
 	if x != nil {
 		return x.Barcode
 	}
 	return ""
 }
 
-func (x *CanItBeRecycledRequest) GetCouncilId() string {
+func (x *CanItBeRecycledBarcodeRequest) GetCouncilId() string {
 	if x != nil {
 		return x.CouncilId
 	}
 	return ""
 }
 
-type CanItBeRecycledResponse struct {
+type CanItBeRecycledBarcodeResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Data          *RecyclingItem         `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
 	ProductName   string                 `protobuf:"bytes,2,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
@@ -264,21 +261,21 @@ type CanItBeRecycledResponse struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CanItBeRecycledResponse) Reset() {
-	*x = CanItBeRecycledResponse{}
-	mi := &file_recycling_proto_msgTypes[2]
+func (x *CanItBeRecycledBarcodeResponse) Reset() {
+	*x = CanItBeRecycledBarcodeResponse{}
+	mi := &file_recycling_v1_recycling_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CanItBeRecycledResponse) String() string {
+func (x *CanItBeRecycledBarcodeResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CanItBeRecycledResponse) ProtoMessage() {}
+func (*CanItBeRecycledBarcodeResponse) ProtoMessage() {}
 
-func (x *CanItBeRecycledResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_recycling_proto_msgTypes[2]
+func (x *CanItBeRecycledBarcodeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_recycling_v1_recycling_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -289,33 +286,32 @@ func (x *CanItBeRecycledResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CanItBeRecycledResponse.ProtoReflect.Descriptor instead.
-func (*CanItBeRecycledResponse) Descriptor() ([]byte, []int) {
-	return file_recycling_proto_rawDescGZIP(), []int{2}
+// Deprecated: Use CanItBeRecycledBarcodeResponse.ProtoReflect.Descriptor instead.
+func (*CanItBeRecycledBarcodeResponse) Descriptor() ([]byte, []int) {
+	return file_recycling_v1_recycling_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *CanItBeRecycledResponse) GetData() *RecyclingItem {
+func (x *CanItBeRecycledBarcodeResponse) GetData() *RecyclingItem {
 	if x != nil {
 		return x.Data
 	}
 	return nil
 }
 
-func (x *CanItBeRecycledResponse) GetProductName() string {
+func (x *CanItBeRecycledBarcodeResponse) GetProductName() string {
 	if x != nil {
 		return x.ProductName
 	}
 	return ""
 }
 
-func (x *CanItBeRecycledResponse) GetBrand() string {
+func (x *CanItBeRecycledBarcodeResponse) GetBrand() string {
 	if x != nil {
 		return x.Brand
 	}
 	return ""
 }
 
-// CanItBeRecycledSearch — text search
 type CanItBeRecycledSearchRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Query         string                 `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
@@ -326,7 +322,7 @@ type CanItBeRecycledSearchRequest struct {
 
 func (x *CanItBeRecycledSearchRequest) Reset() {
 	*x = CanItBeRecycledSearchRequest{}
-	mi := &file_recycling_proto_msgTypes[3]
+	mi := &file_recycling_v1_recycling_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -338,7 +334,7 @@ func (x *CanItBeRecycledSearchRequest) String() string {
 func (*CanItBeRecycledSearchRequest) ProtoMessage() {}
 
 func (x *CanItBeRecycledSearchRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_recycling_proto_msgTypes[3]
+	mi := &file_recycling_v1_recycling_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -351,7 +347,7 @@ func (x *CanItBeRecycledSearchRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CanItBeRecycledSearchRequest.ProtoReflect.Descriptor instead.
 func (*CanItBeRecycledSearchRequest) Descriptor() ([]byte, []int) {
-	return file_recycling_proto_rawDescGZIP(), []int{3}
+	return file_recycling_v1_recycling_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CanItBeRecycledSearchRequest) GetQuery() string {
@@ -377,7 +373,7 @@ type CanItBeRecycledSearchResponse struct {
 
 func (x *CanItBeRecycledSearchResponse) Reset() {
 	*x = CanItBeRecycledSearchResponse{}
-	mi := &file_recycling_proto_msgTypes[4]
+	mi := &file_recycling_v1_recycling_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -389,7 +385,7 @@ func (x *CanItBeRecycledSearchResponse) String() string {
 func (*CanItBeRecycledSearchResponse) ProtoMessage() {}
 
 func (x *CanItBeRecycledSearchResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_recycling_proto_msgTypes[4]
+	mi := &file_recycling_v1_recycling_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -402,7 +398,7 @@ func (x *CanItBeRecycledSearchResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CanItBeRecycledSearchResponse.ProtoReflect.Descriptor instead.
 func (*CanItBeRecycledSearchResponse) Descriptor() ([]byte, []int) {
-	return file_recycling_proto_rawDescGZIP(), []int{4}
+	return file_recycling_v1_recycling_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CanItBeRecycledSearchResponse) GetData() []*RecyclingItem {
@@ -412,7 +408,6 @@ func (x *CanItBeRecycledSearchResponse) GetData() []*RecyclingItem {
 	return nil
 }
 
-// CanItBeRecycledImage — AI image classification
 type CanItBeRecycledImageRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Image         []byte                 `protobuf:"bytes,1,opt,name=image,proto3" json:"image,omitempty"`
@@ -423,7 +418,7 @@ type CanItBeRecycledImageRequest struct {
 
 func (x *CanItBeRecycledImageRequest) Reset() {
 	*x = CanItBeRecycledImageRequest{}
-	mi := &file_recycling_proto_msgTypes[5]
+	mi := &file_recycling_v1_recycling_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -435,7 +430,7 @@ func (x *CanItBeRecycledImageRequest) String() string {
 func (*CanItBeRecycledImageRequest) ProtoMessage() {}
 
 func (x *CanItBeRecycledImageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_recycling_proto_msgTypes[5]
+	mi := &file_recycling_v1_recycling_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -448,7 +443,7 @@ func (x *CanItBeRecycledImageRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CanItBeRecycledImageRequest.ProtoReflect.Descriptor instead.
 func (*CanItBeRecycledImageRequest) Descriptor() ([]byte, []int) {
-	return file_recycling_proto_rawDescGZIP(), []int{5}
+	return file_recycling_v1_recycling_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CanItBeRecycledImageRequest) GetImage() []byte {
@@ -474,7 +469,7 @@ type CanItBeRecycledImageResponse struct {
 
 func (x *CanItBeRecycledImageResponse) Reset() {
 	*x = CanItBeRecycledImageResponse{}
-	mi := &file_recycling_proto_msgTypes[6]
+	mi := &file_recycling_v1_recycling_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -486,7 +481,7 @@ func (x *CanItBeRecycledImageResponse) String() string {
 func (*CanItBeRecycledImageResponse) ProtoMessage() {}
 
 func (x *CanItBeRecycledImageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_recycling_proto_msgTypes[6]
+	mi := &file_recycling_v1_recycling_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -499,7 +494,7 @@ func (x *CanItBeRecycledImageResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CanItBeRecycledImageResponse.ProtoReflect.Descriptor instead.
 func (*CanItBeRecycledImageResponse) Descriptor() ([]byte, []int) {
-	return file_recycling_proto_rawDescGZIP(), []int{6}
+	return file_recycling_v1_recycling_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CanItBeRecycledImageResponse) GetData() *RecyclingItem {
@@ -509,93 +504,93 @@ func (x *CanItBeRecycledImageResponse) GetData() *RecyclingItem {
 	return nil
 }
 
-var File_recycling_proto protoreflect.FileDescriptor
+var File_recycling_v1_recycling_proto protoreflect.FileDescriptor
 
-const file_recycling_proto_rawDesc = "" +
+const file_recycling_v1_recycling_proto_rawDesc = "" +
 	"\n" +
-	"\x0frecycling.proto\x12\trecycling\x1a\x1cgoogle/api/annotations.proto\"\xe8\x02\n" +
+	"\x1crecycling/v1/recycling.proto\x12\frecycling.v1\x1a\x1cgoogle/api/annotations.proto\"\xc6\x03\n" +
 	"\rRecyclingItem\x12\x1e\n" +
 	"\n" +
 	"recyclable\x18\x01 \x01(\bR\n" +
 	"recyclable\x12\x16\n" +
-	"\x06advice\x18\x02 \x01(\tR\x06advice\x12A\n" +
+	"\x06advice\x18\x02 \x01(\tR\x06advice\x12D\n" +
 	"\n" +
-	"bin_colour\x18\x03 \x01(\x0e2\".recycling.RecyclingItem.BinColourR\tbinColour\x12;\n" +
-	"\bbin_type\x18\x04 \x01(\x0e2 .recycling.RecyclingItem.BinTypeR\abinType\"N\n" +
-	"\tBinColour\x12\x16\n" +
-	"\x12BIN_COLOUR_UNKNOWN\x10\x00\x12\b\n" +
-	"\x04BLUE\x10\x01\x12\t\n" +
-	"\x05GREEN\x10\x02\x12\t\n" +
-	"\x05BROWN\x10\x03\x12\t\n" +
-	"\x05BLACK\x10\x04\"O\n" +
-	"\aBinType\x12\x14\n" +
-	"\x10BIN_TYPE_UNKNOWN\x10\x00\x12\t\n" +
-	"\x05PAPER\x10\x01\x12\r\n" +
-	"\tRECYCLING\x10\x02\x12\t\n" +
-	"\x05GLASS\x10\x03\x12\t\n" +
-	"\x05WASTE\x10\x04\"Q\n" +
-	"\x16CanItBeRecycledRequest\x12\x18\n" +
+	"bin_colour\x18\x03 \x01(\x0e2%.recycling.v1.RecyclingItem.BinColourR\tbinColour\x12>\n" +
+	"\bbin_type\x18\x04 \x01(\x0e2#.recycling.v1.RecyclingItem.BinTypeR\abinType\"~\n" +
+	"\tBinColour\x12\x1a\n" +
+	"\x16BIN_COLOUR_UNSPECIFIED\x10\x00\x12\x13\n" +
+	"\x0fBIN_COLOUR_BLUE\x10\x01\x12\x14\n" +
+	"\x10BIN_COLOUR_GREEN\x10\x02\x12\x14\n" +
+	"\x10BIN_COLOUR_BROWN\x10\x03\x12\x14\n" +
+	"\x10BIN_COLOUR_BLACK\x10\x04\"w\n" +
+	"\aBinType\x12\x18\n" +
+	"\x14BIN_TYPE_UNSPECIFIED\x10\x00\x12\x12\n" +
+	"\x0eBIN_TYPE_PAPER\x10\x01\x12\x16\n" +
+	"\x12BIN_TYPE_RECYCLING\x10\x02\x12\x12\n" +
+	"\x0eBIN_TYPE_GLASS\x10\x03\x12\x12\n" +
+	"\x0eBIN_TYPE_WASTE\x10\x04\"X\n" +
+	"\x1dCanItBeRecycledBarcodeRequest\x12\x18\n" +
 	"\abarcode\x18\x01 \x01(\tR\abarcode\x12\x1d\n" +
 	"\n" +
-	"council_id\x18\x02 \x01(\tR\tcouncilId\"\x80\x01\n" +
-	"\x17CanItBeRecycledResponse\x12,\n" +
-	"\x04data\x18\x01 \x01(\v2\x18.recycling.RecyclingItemR\x04data\x12!\n" +
+	"council_id\x18\x02 \x01(\tR\tcouncilId\"\x8a\x01\n" +
+	"\x1eCanItBeRecycledBarcodeResponse\x12/\n" +
+	"\x04data\x18\x01 \x01(\v2\x1b.recycling.v1.RecyclingItemR\x04data\x12!\n" +
 	"\fproduct_name\x18\x02 \x01(\tR\vproductName\x12\x14\n" +
 	"\x05brand\x18\x03 \x01(\tR\x05brand\"S\n" +
 	"\x1cCanItBeRecycledSearchRequest\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query\x12\x1d\n" +
 	"\n" +
-	"council_id\x18\x02 \x01(\tR\tcouncilId\"M\n" +
-	"\x1dCanItBeRecycledSearchResponse\x12,\n" +
-	"\x04data\x18\x01 \x03(\v2\x18.recycling.RecyclingItemR\x04data\"R\n" +
+	"council_id\x18\x02 \x01(\tR\tcouncilId\"P\n" +
+	"\x1dCanItBeRecycledSearchResponse\x12/\n" +
+	"\x04data\x18\x01 \x03(\v2\x1b.recycling.v1.RecyclingItemR\x04data\"R\n" +
 	"\x1bCanItBeRecycledImageRequest\x12\x14\n" +
 	"\x05image\x18\x01 \x01(\fR\x05image\x12\x1d\n" +
 	"\n" +
-	"council_id\x18\x02 \x01(\tR\tcouncilId\"L\n" +
-	"\x1cCanItBeRecycledImageResponse\x12,\n" +
-	"\x04data\x18\x01 \x01(\v2\x18.recycling.RecyclingItemR\x04data2\x9d\x03\n" +
-	"\x10RecyclingService\x12x\n" +
-	"\x0fCanItBeRecycled\x12!.recycling.CanItBeRecycledRequest\x1a\".recycling.CanItBeRecycledResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/v1/recycle/barcode\x12\x86\x01\n" +
-	"\x15CanItBeRecycledSearch\x12'.recycling.CanItBeRecycledSearchRequest\x1a(.recycling.CanItBeRecycledSearchResponse\"\x1a\x82\xd3\xe4\x93\x02\x14\x12\x12/v1/recycle/search\x12\x85\x01\n" +
-	"\x14CanItBeRecycledImage\x12&.recycling.CanItBeRecycledImageRequest\x1a'.recycling.CanItBeRecycledImageResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/recycle/imageB\"Z github.com/ecoscan/service/protob\x06proto3"
+	"council_id\x18\x02 \x01(\tR\tcouncilId\"O\n" +
+	"\x1cCanItBeRecycledImageResponse\x12/\n" +
+	"\x04data\x18\x01 \x01(\v2\x1b.recycling.v1.RecyclingItemR\x04data2\xc5\x03\n" +
+	"\x10RecyclingService\x12\x93\x01\n" +
+	"\x16CanItBeRecycledBarcode\x12+.recycling.v1.CanItBeRecycledBarcodeRequest\x1a,.recycling.v1.CanItBeRecycledBarcodeResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/v1/recycle/barcode\x12\x8c\x01\n" +
+	"\x15CanItBeRecycledSearch\x12*.recycling.v1.CanItBeRecycledSearchRequest\x1a+.recycling.v1.CanItBeRecycledSearchResponse\"\x1a\x82\xd3\xe4\x93\x02\x14\x12\x12/v1/recycle/search\x12\x8b\x01\n" +
+	"\x14CanItBeRecycledImage\x12).recycling.v1.CanItBeRecycledImageRequest\x1a*.recycling.v1.CanItBeRecycledImageResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/recycle/imageB\"Z github.com/ecoscan/service/protob\x06proto3"
 
 var (
-	file_recycling_proto_rawDescOnce sync.Once
-	file_recycling_proto_rawDescData []byte
+	file_recycling_v1_recycling_proto_rawDescOnce sync.Once
+	file_recycling_v1_recycling_proto_rawDescData []byte
 )
 
-func file_recycling_proto_rawDescGZIP() []byte {
-	file_recycling_proto_rawDescOnce.Do(func() {
-		file_recycling_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_recycling_proto_rawDesc), len(file_recycling_proto_rawDesc)))
+func file_recycling_v1_recycling_proto_rawDescGZIP() []byte {
+	file_recycling_v1_recycling_proto_rawDescOnce.Do(func() {
+		file_recycling_v1_recycling_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_recycling_v1_recycling_proto_rawDesc), len(file_recycling_v1_recycling_proto_rawDesc)))
 	})
-	return file_recycling_proto_rawDescData
+	return file_recycling_v1_recycling_proto_rawDescData
 }
 
-var file_recycling_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_recycling_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
-var file_recycling_proto_goTypes = []any{
-	(RecyclingItem_BinColour)(0),          // 0: recycling.RecyclingItem.BinColour
-	(RecyclingItem_BinType)(0),            // 1: recycling.RecyclingItem.BinType
-	(*RecyclingItem)(nil),                 // 2: recycling.RecyclingItem
-	(*CanItBeRecycledRequest)(nil),        // 3: recycling.CanItBeRecycledRequest
-	(*CanItBeRecycledResponse)(nil),       // 4: recycling.CanItBeRecycledResponse
-	(*CanItBeRecycledSearchRequest)(nil),  // 5: recycling.CanItBeRecycledSearchRequest
-	(*CanItBeRecycledSearchResponse)(nil), // 6: recycling.CanItBeRecycledSearchResponse
-	(*CanItBeRecycledImageRequest)(nil),   // 7: recycling.CanItBeRecycledImageRequest
-	(*CanItBeRecycledImageResponse)(nil),  // 8: recycling.CanItBeRecycledImageResponse
+var file_recycling_v1_recycling_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_recycling_v1_recycling_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_recycling_v1_recycling_proto_goTypes = []any{
+	(RecyclingItem_BinColour)(0),           // 0: recycling.v1.RecyclingItem.BinColour
+	(RecyclingItem_BinType)(0),             // 1: recycling.v1.RecyclingItem.BinType
+	(*RecyclingItem)(nil),                  // 2: recycling.v1.RecyclingItem
+	(*CanItBeRecycledBarcodeRequest)(nil),  // 3: recycling.v1.CanItBeRecycledBarcodeRequest
+	(*CanItBeRecycledBarcodeResponse)(nil), // 4: recycling.v1.CanItBeRecycledBarcodeResponse
+	(*CanItBeRecycledSearchRequest)(nil),   // 5: recycling.v1.CanItBeRecycledSearchRequest
+	(*CanItBeRecycledSearchResponse)(nil),  // 6: recycling.v1.CanItBeRecycledSearchResponse
+	(*CanItBeRecycledImageRequest)(nil),    // 7: recycling.v1.CanItBeRecycledImageRequest
+	(*CanItBeRecycledImageResponse)(nil),   // 8: recycling.v1.CanItBeRecycledImageResponse
 }
-var file_recycling_proto_depIdxs = []int32{
-	0, // 0: recycling.RecyclingItem.bin_colour:type_name -> recycling.RecyclingItem.BinColour
-	1, // 1: recycling.RecyclingItem.bin_type:type_name -> recycling.RecyclingItem.BinType
-	2, // 2: recycling.CanItBeRecycledResponse.data:type_name -> recycling.RecyclingItem
-	2, // 3: recycling.CanItBeRecycledSearchResponse.data:type_name -> recycling.RecyclingItem
-	2, // 4: recycling.CanItBeRecycledImageResponse.data:type_name -> recycling.RecyclingItem
-	3, // 5: recycling.RecyclingService.CanItBeRecycled:input_type -> recycling.CanItBeRecycledRequest
-	5, // 6: recycling.RecyclingService.CanItBeRecycledSearch:input_type -> recycling.CanItBeRecycledSearchRequest
-	7, // 7: recycling.RecyclingService.CanItBeRecycledImage:input_type -> recycling.CanItBeRecycledImageRequest
-	4, // 8: recycling.RecyclingService.CanItBeRecycled:output_type -> recycling.CanItBeRecycledResponse
-	6, // 9: recycling.RecyclingService.CanItBeRecycledSearch:output_type -> recycling.CanItBeRecycledSearchResponse
-	8, // 10: recycling.RecyclingService.CanItBeRecycledImage:output_type -> recycling.CanItBeRecycledImageResponse
+var file_recycling_v1_recycling_proto_depIdxs = []int32{
+	0, // 0: recycling.v1.RecyclingItem.bin_colour:type_name -> recycling.v1.RecyclingItem.BinColour
+	1, // 1: recycling.v1.RecyclingItem.bin_type:type_name -> recycling.v1.RecyclingItem.BinType
+	2, // 2: recycling.v1.CanItBeRecycledBarcodeResponse.data:type_name -> recycling.v1.RecyclingItem
+	2, // 3: recycling.v1.CanItBeRecycledSearchResponse.data:type_name -> recycling.v1.RecyclingItem
+	2, // 4: recycling.v1.CanItBeRecycledImageResponse.data:type_name -> recycling.v1.RecyclingItem
+	3, // 5: recycling.v1.RecyclingService.CanItBeRecycledBarcode:input_type -> recycling.v1.CanItBeRecycledBarcodeRequest
+	5, // 6: recycling.v1.RecyclingService.CanItBeRecycledSearch:input_type -> recycling.v1.CanItBeRecycledSearchRequest
+	7, // 7: recycling.v1.RecyclingService.CanItBeRecycledImage:input_type -> recycling.v1.CanItBeRecycledImageRequest
+	4, // 8: recycling.v1.RecyclingService.CanItBeRecycledBarcode:output_type -> recycling.v1.CanItBeRecycledBarcodeResponse
+	6, // 9: recycling.v1.RecyclingService.CanItBeRecycledSearch:output_type -> recycling.v1.CanItBeRecycledSearchResponse
+	8, // 10: recycling.v1.RecyclingService.CanItBeRecycledImage:output_type -> recycling.v1.CanItBeRecycledImageResponse
 	8, // [8:11] is the sub-list for method output_type
 	5, // [5:8] is the sub-list for method input_type
 	5, // [5:5] is the sub-list for extension type_name
@@ -603,27 +598,27 @@ var file_recycling_proto_depIdxs = []int32{
 	0, // [0:5] is the sub-list for field type_name
 }
 
-func init() { file_recycling_proto_init() }
-func file_recycling_proto_init() {
-	if File_recycling_proto != nil {
+func init() { file_recycling_v1_recycling_proto_init() }
+func file_recycling_v1_recycling_proto_init() {
+	if File_recycling_v1_recycling_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_recycling_proto_rawDesc), len(file_recycling_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_recycling_v1_recycling_proto_rawDesc), len(file_recycling_v1_recycling_proto_rawDesc)),
 			NumEnums:      2,
 			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_recycling_proto_goTypes,
-		DependencyIndexes: file_recycling_proto_depIdxs,
-		EnumInfos:         file_recycling_proto_enumTypes,
-		MessageInfos:      file_recycling_proto_msgTypes,
+		GoTypes:           file_recycling_v1_recycling_proto_goTypes,
+		DependencyIndexes: file_recycling_v1_recycling_proto_depIdxs,
+		EnumInfos:         file_recycling_v1_recycling_proto_enumTypes,
+		MessageInfos:      file_recycling_v1_recycling_proto_msgTypes,
 	}.Build()
-	File_recycling_proto = out.File
-	file_recycling_proto_goTypes = nil
-	file_recycling_proto_depIdxs = nil
+	File_recycling_v1_recycling_proto = out.File
+	file_recycling_v1_recycling_proto_goTypes = nil
+	file_recycling_v1_recycling_proto_depIdxs = nil
 }
