@@ -15,6 +15,7 @@ import (
 	pb "github.com/ecoscan/service/proto"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
@@ -28,6 +29,9 @@ func main() {
 }
 
 func run() error {
+	// Load .env if present; no-op in production where env vars are injected directly.
+	_ = godotenv.Load()
+
 	cfg, err := config.Load()
 	if err != nil {
 		return fmt.Errorf("config: %w", err)
