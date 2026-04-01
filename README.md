@@ -19,24 +19,32 @@ Copy `.env.example` to `.env` and fill in the required values.
 | `OFF_TIMEOUT` | `5s` | |
 | `CLAUDE_TIMEOUT` | `15s` | |
 
-## Running
+## Usage
+
+**Run:**
 
 ```bash
-just run           # both service and gateway
+just run           # start both service and gateway
 just run service   # gRPC service only
 just run gateway   # HTTP gateway only
 ```
 
 The gateway connects to the gRPC service via `GRPC_ADDR`. Run the service first if starting them separately.
 
-## Docker
+**Docker:**
 
 ```bash
-docker build -f Dockerfile.service -t ecoscan/service .
-docker build -f Dockerfile.gateway -t ecoscan/gateway .
+just docker           # build both service and gateway images
+just docker service   # service image only
+just docker gateway   # gateway image only
 ```
 
-Run from `go/service/`.
+**Proto generation:**
+
+```bash
+just setup         # install buf and protoc plugins (first time only)
+just gen           # regenerate Go code from proto/recycling/v1/recycling.proto
+```
 
 ## Calling the API
 
@@ -85,13 +93,6 @@ curl -X POST http://localhost:8080/v1/recycle/image \
 |---|---|
 | `CanItBeRecycledBarcode`, `CanItBeRecycledSearch` | 100 req/min |
 | `CanItBeRecycledImage` | 10 req/min |
-
-## Proto
-
-```bash
-just proto   # regenerate Go code from proto/recycling/v1/recycling.proto
-just setup   # install buf and protoc plugins (first time)
-```
 
 ## Adding a council
 

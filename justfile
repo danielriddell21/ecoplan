@@ -33,8 +33,29 @@ lint:
 test:
     go test ./go/service/... -count=1
 
+# Build Docker images — `just docker` builds both, `just docker service` or `just docker gateway` builds one
+docker type="all":
+    #!/usr/bin/env bash
+    set -e
+    case "{{type}}" in
+        service) just _docker-service ;;
+        gateway) just _docker-gateway ;;
+        all)
+            just _docker-service
+            just _docker-gateway ;;
+        *) echo "unknown type: {{type}}"; exit 1 ;;
+    esac
+
+[private]
+_docker-service:
+    cd go/service && docker build -f Dockerfile.service -t ecoscan/service .
+
+[private]
+_docker-gateway:
+    cd go/service && docker build -f Dockerfile.gateway -t ecoscan/gateway .
+
 # Generate Go code from proto/recycling.proto (run `just setup` first)
-proto:
+gen:
     buf generate
 
 # Install buf and protoc plugins required for code generation
