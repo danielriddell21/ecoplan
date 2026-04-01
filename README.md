@@ -1,50 +1,48 @@
 # ecoscan
 
-A production-ready gRPC API for recycling advice. Identifies how to recycle items via barcode lookup, text search, or AI image classification. Currently covers Portsmouth City Council recycling rules.
+gRPC API for recycling advice. Looks up items by barcode, text search, or image. Currently covers Portsmouth City Council rules.
 
-## Usage
+## Setup
 
-### Requirements
+Copy `.env.example` to `.env` and fill in the required values.
 
-| Variable | Description |
-|---|---|
-| `ANTHROPIC_API_KEY` | Anthropic API key (required) |
-| `ECOSCAN_API_KEY` | Shared secret for API authentication (required) |
-| `GRPC_PORT` | gRPC listen port (default: `50051`) |
-| `METRICS_PORT` | HTTP health/metrics port (default: `9090`) |
-| `LOG_LEVEL` | `debug`, `info`, `warn`, `error` (default: `info`) |
-| `CLAUDE_MODEL` | Claude model ID (default: `claude-sonnet-4-6`) |
-| `OFF_TIMEOUT` | OpenFoodFacts request timeout (default: `5s`) |
-| `CLAUDE_TIMEOUT` | Claude request timeout (default: `15s`) |
+| Variable | Default | Notes |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | — | Required |
+| `ECOSCAN_API_KEY` | — | Required — bearer token for API auth |
+| `GRPC_PORT` | `50051` | |
+| `GATEWAY_PORT` | `8080` | HTTP/JSON gateway |
+| `METRICS_PORT` | `9090` | `/healthz` and `/metrics` |
+| `LOG_LEVEL` | `info` | `debug`, `info`, `warn`, `error` |
+| `GRPC_ADDR` | `localhost:50051` | Gateway only — address of the gRPC service |
+| `CLAUDE_MODEL` | `claude-sonnet-4-6` | |
+| `OFF_TIMEOUT` | `5s` | |
+| `CLAUDE_TIMEOUT` | `15s` | |
 
-### Run locally
-
-```bash
-export ANTHROPIC_API_KEY=sk-ant-...
-export ECOSCAN_API_KEY=your-secret
-cd go/service
-go run ./cmd/main.go
-```
-
-### Run with Docker
+## Running
 
 ```bash
-docker build -t ecoscan .
-docker run -p 50051:50051 -p 9090:9090 \
-  -e ANTHROPIC_API_KEY=sk-ant-... \
-  -e ECOSCAN_API_KEY=your-secret \
-  ecoscan
+just run           # both service and gateway
+just run service   # gRPC service only
+just run gateway   # HTTP gateway only
 ```
 
-### Health check
+The gateway connects to the gRPC service via `GRPC_ADDR`. Run the service first if starting them separately.
+
+## Docker
 
 ```bash
-curl http://localhost:9090/healthz
+docker build -f Dockerfile.service -t ecoscan/service .
+docker build -f Dockerfile.gateway -t ecoscan/gateway .
 ```
 
-### Calling the API
+Run from `go/service/`.
 
-All RPCs require an `authorization: bearer <ECOSCAN_API_KEY>` metadata header.
+## Calling the API
+
+All requests require `authorization: bearer <ECOSCAN_API_KEY>`.
+
+### gRPC
 
 ```bash
 # Barcode lookup
@@ -59,64 +57,44 @@ grpcurl -plaintext \
   -d '{"query": "glass bottle"}' \
   localhost:50051 recycling.RecyclingService/CanItBeRecycledSearch
 
-# Image classification (base64-encoded JPEG/PNG)
+# Image (base64-encoded JPEG/PNG)
 grpcurl -plaintext \
   -H "authorization: bearer your-secret" \
   -d "{\"image\": \"$(base64 -w0 item.jpg)\"}" \
   localhost:50051 recycling.RecyclingService/CanItBeRecycledImage
 ```
 
-### Rate limits
+### HTTP
+
+```bash
+curl -X POST http://localhost:8080/v1/recycle/barcode \
+  -H "authorization: bearer your-secret" \
+  -d '{"barcode": "5000112546415"}'
+
+curl "http://localhost:8080/v1/recycle/search?query=glass+bottle" \
+  -H "authorization: bearer your-secret"
+
+curl -X POST http://localhost:8080/v1/recycle/image \
+  -H "authorization: bearer your-secret" \
+  -d "{\"image\": \"$(base64 -w0 item.jpg)\"}"
+```
+
+## Rate limits
 
 | Method | Limit |
 |---|---|
 | `CanItBeRecycled`, `CanItBeRecycledSearch` | 100 req/min |
 | `CanItBeRecycledImage` | 10 req/min |
 
-## Structure
-
-```
-ecoscan/
-├── proto/
-│   └── recycling.proto               # Service definition
-├── go/service/
-│   ├── cmd/main.go                   # Entrypoint — wires config, providers, server
-│   ├── internal/
-│   │   ├── config/config.go          # Typed config loaded from env vars
-│   │   ├── models/                   # Material, MaterialsDB, OFFResponse types
-│   │   ├── mappers/bin.go            # Bin name → proto enum conversion
-│   │   ├── providers/                # External integration interfaces + implementations
-│   │   │   ├── resolver.go           # BarcodeResolver interface
-│   │   │   ├── classifier.go         # ImageClassifier interface
-│   │   │   ├── openfoodfacts.go      # Barcode → packaging tags (Open Food Facts API)
-│   │   │   └── claude.go             # Image → item description (Claude API)
-│   │   └── service/
-│   │       ├── service.go            # Server struct, cache, DI wiring
-│   │       ├── barcode.go            # CanItBeRecycled handler
-│   │       ├── image.go              # CanItBeRecycledImage handler
-│   │       ├── search.go             # CanItBeRecycledSearch handler
-│   │       └── materials.json        # Embedded Portsmouth recycling rules
-│   └── middleware/
-│       ├── logging.go                # Request logging interceptor
-│       ├── auth.go                   # Bearer token auth interceptor
-│       └── ratelimit.go              # Token-bucket rate limiting interceptor
-├── Dockerfile                        # Multi-stage distroless build
-└── .github/workflows/ci.yml          # CI: vet, test, docker build
-```
-
-## Adding a new council
-
-1. Add a new JSON file alongside `materials.json` (same schema, different rules).
-2. Load it based on the `council_id` field present on all request messages.
-3. Pass the correct `council_id` from your client. Omitting it defaults to `portsmouth`.
-
-## Regenerating proto code
+## Proto
 
 ```bash
-protoc \
-  --proto_path=proto \
-  --go_out=go/service --go_opt=paths=source_relative \
-  --go-grpc_out=go/service --go-grpc_opt=paths=source_relative \
-  proto/recycling.proto
-mv go/service/recycling*.pb.go go/service/proto/
+just proto   # regenerate Go code from proto/recycling.proto
+just setup   # install buf and protoc plugins (first time)
 ```
+
+## Adding a council
+
+1. Add a JSON file alongside `materials.json` using the same schema.
+2. Load it based on the `council_id` field on each request.
+3. Clients pass `council_id` in the request; omitting it defaults to `portsmouth`.
