@@ -17,7 +17,7 @@ jobs:
 
       - uses: actions/setup-go@v6
         with:
-          go-version-file: go/service/go.mod
+          go-version-file: go.work
           cache: false
 
       - uses: golangci/golangci-lint-action@v9
@@ -33,7 +33,7 @@ jobs:
 
       - uses: actions/setup-go@v6
         with:
-          go-version-file: go/service/go.mod
+          go-version-file: go.work
           cache-dependency-path: |
             go/service/go.sum
             go.work.sum
