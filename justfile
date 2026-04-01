@@ -25,6 +25,10 @@ _run-service:
 _run-gateway:
     go run ./go/service/cmd/gateway
 
+# Lint Go code
+lint:
+    cd go/service && golangci-lint run ./...
+
 # Run all tests
 test:
     go test ./go/service/... -count=1
