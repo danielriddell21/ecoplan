@@ -9,7 +9,6 @@ go/service/bin/
 
 # IDE
 .idea/
-.vscode/
 *.swp
 *.swo
 

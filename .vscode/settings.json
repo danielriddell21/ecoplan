@@ -1,0 +1,10 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "go.work": "go.work.sum",
+    "go.mod": "go.sum",
+    "buf.yaml": "buf.gen.yaml, buf.lock",
+    "*.go": "${capture}_test.go",
+    ".env.example": ".env, .env.local, .env.*.local"
+  }
+}

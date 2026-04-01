@@ -49,19 +49,19 @@ All requests require `authorization: bearer <ECOSCAN_API_KEY>`.
 grpcurl -plaintext \
   -H "authorization: bearer your-secret" \
   -d '{"barcode": "5000112546415"}' \
-  localhost:50051 recycling.RecyclingService/CanItBeRecycled
+  localhost:50051 recycling.v1.RecyclingService/CanItBeRecycledBarcode
 
 # Text search
 grpcurl -plaintext \
   -H "authorization: bearer your-secret" \
   -d '{"query": "glass bottle"}' \
-  localhost:50051 recycling.RecyclingService/CanItBeRecycledSearch
+  localhost:50051 recycling.v1.RecyclingService/CanItBeRecycledSearch
 
 # Image (base64-encoded JPEG/PNG)
 grpcurl -plaintext \
   -H "authorization: bearer your-secret" \
   -d "{\"image\": \"$(base64 -w0 item.jpg)\"}" \
-  localhost:50051 recycling.RecyclingService/CanItBeRecycledImage
+  localhost:50051 recycling.v1.RecyclingService/CanItBeRecycledImage
 ```
 
 ### HTTP
@@ -83,13 +83,13 @@ curl -X POST http://localhost:8080/v1/recycle/image \
 
 | Method | Limit |
 |---|---|
-| `CanItBeRecycled`, `CanItBeRecycledSearch` | 100 req/min |
+| `CanItBeRecycledBarcode`, `CanItBeRecycledSearch` | 100 req/min |
 | `CanItBeRecycledImage` | 10 req/min |
 
 ## Proto
 
 ```bash
-just proto   # regenerate Go code from proto/recycling.proto
+just proto   # regenerate Go code from proto/recycling/v1/recycling.proto
 just setup   # install buf and protoc plugins (first time)
 ```
 
