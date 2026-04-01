@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package recycling;
+
+option go_package = "github.com/ecoscan/service/proto";
+
+// RecyclingItem describes how to dispose of a single item.
+message RecyclingItem {
+  enum BinColour {
+    BIN_COLOUR_UNKNOWN = 0;
+    BLUE = 1;
+    GREEN = 2;
+    BROWN = 3;
+    BLACK = 4;
+  }
+
+  enum BinType {
+    BIN_TYPE_UNKNOWN = 0;
+    PAPER = 1;
+    RECYCLING = 2;
+    GLASS = 3;
+    WASTE = 4;
+  }
+
+  bool recyclable = 1;
+  string advice = 2;
+  BinColour bin_colour = 3;
+  BinType bin_type = 4;
+}
+
+// CanItBeRecycled — barcode lookup
+message CanItBeRecycledRequest {
+  string barcode = 1;
+  // council_id identifies the local authority. Defaults to "portsmouth" if empty.
+  string council_id = 2;
+}
+
+message CanItBeRecycledResponse {
+  RecyclingItem data = 1;
+  string product_name = 2;
+  string brand = 3;
+}
+
+// CanItBeRecycledSearch — text search
+message CanItBeRecycledSearchRequest {
+  string query = 1;
+  string council_id = 2;
+}
+
+message CanItBeRecycledSearchResponse {
+  repeated RecyclingItem data = 1;
+}
+
+// CanItBeRecycledImage — AI image classification
+message CanItBeRecycledImageRequest {
+  bytes image = 1;
+  string council_id = 2;
+}
+
+message CanItBeRecycledImageResponse {
+  RecyclingItem data = 1;
+}
+
+// To add grpc-gateway HTTP/JSON annotations, import "google/api/annotations.proto"
+// and add option (google.api.http) blocks to each rpc. Requires googleapis protos
+// and the grpc-gateway protoc plugin:
+//   POST /v1/recycle/barcode  -> CanItBeRecycled
+//   GET  /v1/recycle/search   -> CanItBeRecycledSearch
+//   POST /v1/recycle/image    -> CanItBeRecycledImage
+
+service RecyclingService {
+  rpc CanItBeRecycled(CanItBeRecycledRequest) returns (CanItBeRecycledResponse);
+  rpc CanItBeRecycledSearch(CanItBeRecycledSearchRequest) returns (CanItBeRecycledSearchResponse);
+  rpc CanItBeRecycledImage(CanItBeRecycledImageRequest) returns (CanItBeRecycledImageResponse);
+}
