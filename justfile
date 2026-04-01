@@ -2,27 +2,27 @@
 default:
     @just --list
 
-# Run services — `just run` starts both, `just run grpc` or `just run rest` starts one
+# Run services — `just run` starts both, `just run service` or `just run gateway` starts one
 run type="all":
     #!/usr/bin/env bash
     set -e
     case "{{type}}" in
-        grpc) just _run-grpc ;;
-        rest) just _run-rest ;;
+        service) just _run-service ;;
+        gateway) just _run-gateway ;;
         all)
             trap 'kill 0' EXIT
-            just _run-grpc &
-            just _run-rest &
+            just _run-service &
+            just _run-gateway &
             wait ;;
         *) echo "unknown type: {{type}}"; exit 1 ;;
     esac
 
 [private]
-_run-grpc:
-    go run ./go/service/cmd/grpc
+_run-service:
+    go run ./go/service/cmd/service
 
 [private]
-_run-rest:
+_run-gateway:
     go run ./go/service/cmd/gateway
 
 # Run all tests with race detection
