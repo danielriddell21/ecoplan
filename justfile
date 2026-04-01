@@ -2,12 +2,27 @@
 default:
     @just --list
 
-# Run the gRPC service (requires ANTHROPIC_API_KEY and ECOSCAN_API_KEY)
-run-grpc:
+# Run services — `just run` starts both, `just run grpc` or `just run rest` starts one
+run type="all":
+    #!/usr/bin/env bash
+    set -e
+    case "{{type}}" in
+        grpc) just _run-grpc ;;
+        rest) just _run-rest ;;
+        all)
+            trap 'kill 0' EXIT
+            just _run-grpc &
+            just _run-rest &
+            wait ;;
+        *) echo "unknown type: {{type}}"; exit 1 ;;
+    esac
+
+[private]
+_run-grpc:
     go run ./go/service/cmd/grpc
 
-# Run the HTTP gateway (requires GRPC_ADDR pointing at a running gRPC service)
-run-gateway:
+[private]
+_run-rest:
     go run ./go/service/cmd/gateway
 
 # Run all tests with race detection
