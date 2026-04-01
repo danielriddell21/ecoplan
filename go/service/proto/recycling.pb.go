@@ -7,6 +7,7 @@
 package proto
 
 import (
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -512,7 +513,7 @@ var File_recycling_proto protoreflect.FileDescriptor
 
 const file_recycling_proto_rawDesc = "" +
 	"\n" +
-	"\x0frecycling.proto\x12\trecycling\"\xe8\x02\n" +
+	"\x0frecycling.proto\x12\trecycling\x1a\x1cgoogle/api/annotations.proto\"\xe8\x02\n" +
 	"\rRecyclingItem\x12\x1e\n" +
 	"\n" +
 	"recyclable\x18\x01 \x01(\bR\n" +
@@ -552,11 +553,11 @@ const file_recycling_proto_rawDesc = "" +
 	"\n" +
 	"council_id\x18\x02 \x01(\tR\tcouncilId\"L\n" +
 	"\x1cCanItBeRecycledImageResponse\x12,\n" +
-	"\x04data\x18\x01 \x01(\v2\x18.recycling.RecyclingItemR\x04data2\xc1\x02\n" +
-	"\x10RecyclingService\x12X\n" +
-	"\x0fCanItBeRecycled\x12!.recycling.CanItBeRecycledRequest\x1a\".recycling.CanItBeRecycledResponse\x12j\n" +
-	"\x15CanItBeRecycledSearch\x12'.recycling.CanItBeRecycledSearchRequest\x1a(.recycling.CanItBeRecycledSearchResponse\x12g\n" +
-	"\x14CanItBeRecycledImage\x12&.recycling.CanItBeRecycledImageRequest\x1a'.recycling.CanItBeRecycledImageResponseB\"Z github.com/ecoscan/service/protob\x06proto3"
+	"\x04data\x18\x01 \x01(\v2\x18.recycling.RecyclingItemR\x04data2\x9d\x03\n" +
+	"\x10RecyclingService\x12x\n" +
+	"\x0fCanItBeRecycled\x12!.recycling.CanItBeRecycledRequest\x1a\".recycling.CanItBeRecycledResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/v1/recycle/barcode\x12\x86\x01\n" +
+	"\x15CanItBeRecycledSearch\x12'.recycling.CanItBeRecycledSearchRequest\x1a(.recycling.CanItBeRecycledSearchResponse\"\x1a\x82\xd3\xe4\x93\x02\x14\x12\x12/v1/recycle/search\x12\x85\x01\n" +
+	"\x14CanItBeRecycledImage\x12&.recycling.CanItBeRecycledImageRequest\x1a'.recycling.CanItBeRecycledImageResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/recycle/imageB\"Z github.com/ecoscan/service/protob\x06proto3"
 
 var (
 	file_recycling_proto_rawDescOnce sync.Once

@@ -14,6 +14,7 @@ import (
 	"github.com/ecoscan/service/middleware"
 	pb "github.com/ecoscan/service/proto"
 
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
@@ -63,6 +64,21 @@ func run() error {
 	grpc_health_v1.RegisterHealthServer(grpcServer, healthSvc)
 	healthSvc.SetServingStatus("recycling.RecyclingService", grpc_health_v1.HealthCheckResponse_SERVING)
 
+	// Start HTTP/JSON gateway on GatewayPort.
+	go func() {
+		ctx := context.Background()
+		gwMux := runtime.NewServeMux()
+		if err := pb.RegisterRecyclingServiceHandlerServer(ctx, gwMux, svc); err != nil {
+			log.Error("registering gateway handlers", "err", err)
+			return
+		}
+		addr := fmt.Sprintf(":%d", cfg.GatewayPort)
+		log.Info("starting HTTP gateway", "addr", addr)
+		if err := http.ListenAndServe(addr, gwMux); err != nil {
+			log.Error("HTTP gateway failed", "err", err)
+		}
+	}()
+
 	// Start HTTP server for /healthz and /metrics on MetricsPort.
 	go func() {
 		mux := http.NewServeMux()
@@ -89,9 +105,6 @@ func run() error {
 	}
 
 	log.Info("starting gRPC server", "port", cfg.GRPCPort)
-
-	// Graceful shutdown on context cancellation (extend later with signal handling).
-	_ = context.Background()
 
 	return grpcServer.Serve(lis)
 }

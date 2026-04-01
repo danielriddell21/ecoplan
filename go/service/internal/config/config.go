@@ -13,6 +13,7 @@ import (
 // The service will exit if any required value is missing.
 type Config struct {
 	GRPCPort      int
+	GatewayPort   int
 	MetricsPort   int
 	AnthropicKey  string
 	APIKey        string // shared secret for bearer auth
@@ -28,6 +29,7 @@ type Config struct {
 func Load() (*Config, error) {
 	cfg := &Config{
 		GRPCPort:      envInt("GRPC_PORT", 50051),
+		GatewayPort:   envInt("GATEWAY_PORT", 8080),
 		MetricsPort:   envInt("METRICS_PORT", 9090),
 		AnthropicKey:  os.Getenv("ANTHROPIC_API_KEY"),
 		APIKey:        os.Getenv("ECOSCAN_API_KEY"),

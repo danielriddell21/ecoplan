@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package recycling;
 
+import "google/api/annotations.proto";
+
 option go_package = "github.com/ecoscan/service/proto";
 
 // RecyclingItem describes how to dispose of a single item.
@@ -61,15 +63,24 @@ message CanItBeRecycledImageResponse {
   RecyclingItem data = 1;
 }
 
-// To add grpc-gateway HTTP/JSON annotations, import "google/api/annotations.proto"
-// and add option (google.api.http) blocks to each rpc. Requires googleapis protos
-// and the grpc-gateway protoc plugin:
-//   POST /v1/recycle/barcode  -> CanItBeRecycled
-//   GET  /v1/recycle/search   -> CanItBeRecycledSearch
-//   POST /v1/recycle/image    -> CanItBeRecycledImage
-
 service RecyclingService {
-  rpc CanItBeRecycled(CanItBeRecycledRequest) returns (CanItBeRecycledResponse);
-  rpc CanItBeRecycledSearch(CanItBeRecycledSearchRequest) returns (CanItBeRecycledSearchResponse);
-  rpc CanItBeRecycledImage(CanItBeRecycledImageRequest) returns (CanItBeRecycledImageResponse);
+  rpc CanItBeRecycled(CanItBeRecycledRequest) returns (CanItBeRecycledResponse) {
+    option (google.api.http) = {
+      post: "/v1/recycle/barcode"
+      body: "*"
+    };
+  }
+
+  rpc CanItBeRecycledSearch(CanItBeRecycledSearchRequest) returns (CanItBeRecycledSearchResponse) {
+    option (google.api.http) = {
+      get: "/v1/recycle/search"
+    };
+  }
+
+  rpc CanItBeRecycledImage(CanItBeRecycledImageRequest) returns (CanItBeRecycledImageResponse) {
+    option (google.api.http) = {
+      post: "/v1/recycle/image"
+      body: "*"
+    };
+  }
 }
