@@ -64,7 +64,7 @@ func (r *OpenFoodFactsResolver) Resolve(ctx context.Context, barcode string) (Ba
 			continue
 		}
 		if resp.StatusCode >= 500 {
-			resp.Body.Close()
+			resp.Body.Close() //nolint:errcheck
 			r.log.WarnContext(ctx, "openfoodfacts 5xx", "attempt", attempt+1, "status", resp.StatusCode)
 			err = fmt.Errorf("upstream returned %d", resp.StatusCode)
 			continue
@@ -75,7 +75,7 @@ func (r *OpenFoodFactsResolver) Resolve(ctx context.Context, barcode string) (Ba
 	if err != nil {
 		return BarcodeResult{}, fmt.Errorf("openfoodfacts: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode == http.StatusNotFound {
 		return BarcodeResult{}, ErrNotFound

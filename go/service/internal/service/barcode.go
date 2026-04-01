@@ -4,9 +4,7 @@ import (
 	"context"
 	"errors"
 	"regexp"
-	"unicode"
-
-	"github.com/ecoscan/service/internal/mappers"
+"github.com/ecoscan/service/internal/mappers"
 	"github.com/ecoscan/service/internal/providers"
 	pb "github.com/ecoscan/service/proto"
 	"google.golang.org/grpc/codes"
@@ -72,14 +70,4 @@ func (s *RecyclingServiceServer) buildBarcodeResponse(result providers.BarcodeRe
 			BinType:    mappers.ToBinType(m.Bin),
 		},
 	}
-}
-
-// isAllDigits checks every rune is a decimal digit.
-func isAllDigits(s string) bool {
-	for _, r := range s {
-		if !unicode.IsDigit(r) {
-			return false
-		}
-	}
-	return true
 }

@@ -5,7 +5,6 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ecoscan/service/internal/models"
 	"github.com/ecoscan/service/internal/providers"
 	"github.com/ecoscan/service/internal/service"
 	"google.golang.org/grpc/codes"
@@ -38,16 +37,6 @@ func (s *stubClassifier) Classify(_ context.Context, _ []byte) (string, error) {
 	return s.item, s.err
 }
 
-func makeTestDB() models.MaterialsDB {
-	return models.MaterialsDB{
-		Materials: map[string]models.Material{
-			"plastic_bottle": {Label: "Plastic Bottle", Recyclable: "yes", Bin: "green", Tips: "Rinse first"},
-		},
-		Bins: map[string]models.Bin{
-			"green": {Label: "Green Bin"},
-		},
-	}
-}
 
 func newTestService(t *testing.T, resolver providers.BarcodeResolver, classifier providers.ImageClassifier) *service.RecyclingServiceServer {
 	t.Helper()

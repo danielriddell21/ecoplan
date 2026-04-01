@@ -68,11 +68,11 @@ func run() error {
 		mux := http.NewServeMux()
 		mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
-			fmt.Fprint(w, "ok")
+			_, _ = fmt.Fprint(w, "ok")
 		})
 		mux.HandleFunc("/metrics", func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
-			fmt.Fprint(w, "# metrics endpoint — Prometheus exporter not yet configured\n")
+			_, _ = fmt.Fprint(w, "# metrics endpoint — Prometheus exporter not yet configured\n")
 		})
 		addr := fmt.Sprintf(":%d", cfg.MetricsPort)
 		log.Info("starting metrics/health HTTP server", "addr", addr)

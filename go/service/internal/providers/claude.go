@@ -123,7 +123,7 @@ func (c *ClaudeClassifier) Classify(ctx context.Context, imageBytes []byte) (str
 			continue
 		}
 		if resp.StatusCode >= 500 {
-			resp.Body.Close()
+			resp.Body.Close() //nolint:errcheck
 			c.log.WarnContext(ctx, "claude 5xx", "attempt", attempt+1, "status", resp.StatusCode)
 			doErr = fmt.Errorf("upstream returned %d", resp.StatusCode)
 			continue
@@ -134,7 +134,7 @@ func (c *ClaudeClassifier) Classify(ctx context.Context, imageBytes []byte) (str
 	if doErr != nil {
 		return "", fmt.Errorf("claude: %w", doErr)
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode != http.StatusOK {
 		return "", fmt.Errorf("claude returned %d", resp.StatusCode)
