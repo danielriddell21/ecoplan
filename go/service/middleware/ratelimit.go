@@ -2,71 +2,40 @@ package middleware
 
 import (
 	"context"
-	"sync"
-	"time"
 
+	grpcratelimit "github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/ratelimit"
+	"golang.org/x/time/rate"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-// tokenBucket is a simple token-bucket rate limiter.
-type tokenBucket struct {
-	mu       sync.Mutex
-	tokens   float64
-	capacity float64
-	rate     float64 // tokens per second
-	lastFill time.Time
+// perMethodLimiter applies different rate limits per gRPC method.
+type perMethodLimiter struct {
+	defaultLimiter *rate.Limiter
+	imageLimiter   *rate.Limiter
+	imageMethod    string
 }
 
-func newTokenBucket(capacity float64, ratePerMinute float64) *tokenBucket {
-	return &tokenBucket{
-		tokens:   capacity,
-		capacity: capacity,
-		rate:     ratePerMinute / 60.0,
-		lastFill: time.Now(),
+func (l *perMethodLimiter) Limit(ctx context.Context) error {
+	method, _ := grpc.Method(ctx)
+	lim := l.defaultLimiter
+	if method == l.imageMethod {
+		lim = l.imageLimiter
 	}
-}
-
-func (b *tokenBucket) Allow() bool {
-	b.mu.Lock()
-	defer b.mu.Unlock()
-
-	now := time.Now()
-	elapsed := now.Sub(b.lastFill).Seconds()
-	b.tokens = min(b.capacity, b.tokens+elapsed*b.rate)
-	b.lastFill = now
-
-	if b.tokens < 1 {
-		return false
+	if !lim.Allow() {
+		return status.Error(codes.ResourceExhausted, "rate limit exceeded — please slow down")
 	}
-	b.tokens--
-	return true
+	return nil
 }
 
 // UnaryRateLimit returns a gRPC unary interceptor with per-method rate limits.
-// imageMethod receives a stricter limit than the default.
+// imageMethod receives a stricter limit (imageRPM) than the default (defaultRPM).
 func UnaryRateLimit(defaultRPM float64, imageMethod string, imageRPM float64) grpc.UnaryServerInterceptor {
-	defaultBucket := newTokenBucket(defaultRPM, defaultRPM)
-	imageBucket := newTokenBucket(imageRPM, imageRPM)
-
-	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
-		bucket := defaultBucket
-		if info.FullMethod == imageMethod {
-			bucket = imageBucket
-		}
-
-		if !bucket.Allow() {
-			return nil, status.Error(codes.ResourceExhausted, "rate limit exceeded — please slow down")
-		}
-
-		return handler(ctx, req)
+	limiter := &perMethodLimiter{
+		defaultLimiter: rate.NewLimiter(rate.Limit(defaultRPM/60.0), int(defaultRPM)),
+		imageLimiter:   rate.NewLimiter(rate.Limit(imageRPM/60.0), int(imageRPM)),
+		imageMethod:    imageMethod,
 	}
-}
-
-func min(a, b float64) float64 {
-	if a < b {
-		return a
-	}
-	return b
+	return grpcratelimit.UnaryServerInterceptor(limiter)
 }

@@ -3,31 +3,24 @@ package middleware
 import (
 	"context"
 	"log/slog"
-	"time"
 
+	grpclogging "github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/logging"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 // UnaryLogging returns a gRPC unary interceptor that logs each request with method, duration, and status.
 func UnaryLogging(log *slog.Logger) grpc.UnaryServerInterceptor {
-	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
-		start := time.Now()
-		resp, err := handler(ctx, req)
-		duration := time.Since(start)
-
-		code := codes.OK
-		if err != nil {
-			code = status.Code(err)
+	logger := grpclogging.LoggerFunc(func(ctx context.Context, level grpclogging.Level, msg string, fields ...any) {
+		switch level {
+		case grpclogging.LevelDebug:
+			log.DebugContext(ctx, msg, fields...)
+		case grpclogging.LevelWarn:
+			log.WarnContext(ctx, msg, fields...)
+		case grpclogging.LevelError:
+			log.ErrorContext(ctx, msg, fields...)
+		default:
+			log.InfoContext(ctx, msg, fields...)
 		}
-
-		log.InfoContext(ctx, "rpc",
-			"method", info.FullMethod,
-			"duration_ms", duration.Milliseconds(),
-			"code", code.String(),
-		)
-
-		return resp, err
-	}
+	})
+	return grpclogging.UnaryServerInterceptor(logger)
 }
