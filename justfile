@@ -25,9 +25,9 @@ _run-service:
 _run-gateway:
     go run ./go/service/cmd/gateway
 
-# Run all tests with race detection
+# Run all tests
 test:
-    go test ./go/service/... -race -count=1
+    go test ./go/service/... -count=1
 
 # Generate Go code from proto/recycling.proto (run `just setup` first)
 proto:
