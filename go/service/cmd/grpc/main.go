@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log/slog"
 	"net"
@@ -14,7 +13,6 @@ import (
 	"github.com/ecoscan/service/middleware"
 	pb "github.com/ecoscan/service/proto"
 
-	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
@@ -29,7 +27,6 @@ func main() {
 }
 
 func run() error {
-	// Load .env if present; no-op in production where env vars are injected directly.
 	_ = godotenv.Load()
 
 	cfg, err := config.Load()
@@ -54,36 +51,19 @@ func run() error {
 			middleware.UnaryLogging(log),
 			middleware.UnaryAuth(cfg.APIKey),
 			middleware.UnaryRateLimit(
-				100, // default: 100 req/min
+				100,
 				"/recycling.RecyclingService/CanItBeRecycledImage",
-				10, // image: 10 req/min (Claude is expensive)
+				10,
 			),
 		),
 	)
 
 	pb.RegisterRecyclingServiceServer(grpcServer, svc)
 
-	// Register gRPC health check service.
 	healthSvc := health.NewServer()
 	grpc_health_v1.RegisterHealthServer(grpcServer, healthSvc)
 	healthSvc.SetServingStatus("recycling.RecyclingService", grpc_health_v1.HealthCheckResponse_SERVING)
 
-	// Start HTTP/JSON gateway on GatewayPort.
-	go func() {
-		ctx := context.Background()
-		gwMux := runtime.NewServeMux()
-		if err := pb.RegisterRecyclingServiceHandlerServer(ctx, gwMux, svc); err != nil {
-			log.Error("registering gateway handlers", "err", err)
-			return
-		}
-		addr := fmt.Sprintf(":%d", cfg.GatewayPort)
-		log.Info("starting HTTP gateway", "addr", addr)
-		if err := http.ListenAndServe(addr, gwMux); err != nil {
-			log.Error("HTTP gateway failed", "err", err)
-		}
-	}()
-
-	// Start HTTP server for /healthz and /metrics on MetricsPort.
 	go func() {
 		mux := http.NewServeMux()
 		mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
@@ -91,7 +71,6 @@ func run() error {
 			fmt.Fprint(w, "ok")
 		})
 		mux.HandleFunc("/metrics", func(w http.ResponseWriter, r *http.Request) {
-			// Placeholder: wire Prometheus exporter here when adding OTel metrics.
 			w.WriteHeader(http.StatusOK)
 			fmt.Fprint(w, "# metrics endpoint — Prometheus exporter not yet configured\n")
 		})
@@ -102,13 +81,11 @@ func run() error {
 		}
 	}()
 
-	// Start gRPC server.
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", cfg.GRPCPort))
 	if err != nil {
 		return fmt.Errorf("listening on port %d: %w", cfg.GRPCPort, err)
 	}
 
 	log.Info("starting gRPC server", "port", cfg.GRPCPort)
-
 	return grpcServer.Serve(lis)
 }

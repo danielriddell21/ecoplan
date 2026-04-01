@@ -12,9 +12,8 @@ import (
 // All values are loaded from environment variables at startup.
 // The service will exit if any required value is missing.
 type Config struct {
-	GRPCPort      int
-	GatewayPort   int
-	MetricsPort   int
+	GRPCPort    int
+	MetricsPort int
 	AnthropicKey  string
 	APIKey        string // shared secret for bearer auth
 	LogLevel      string
@@ -28,9 +27,8 @@ type Config struct {
 // Returns an error if any required variable is missing or unparseable.
 func Load() (*Config, error) {
 	cfg := &Config{
-		GRPCPort:      envInt("GRPC_PORT", 50051),
-		GatewayPort:   envInt("GATEWAY_PORT", 8080),
-		MetricsPort:   envInt("METRICS_PORT", 9090),
+		GRPCPort:    envInt("GRPC_PORT", 50051),
+		MetricsPort: envInt("METRICS_PORT", 9090),
 		AnthropicKey:  os.Getenv("ANTHROPIC_API_KEY"),
 		APIKey:        os.Getenv("ECOSCAN_API_KEY"),
 		LogLevel:      envStr("LOG_LEVEL", "info"),

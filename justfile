@@ -2,10 +2,13 @@
 default:
     @just --list
 
-# Run the service
-# Requires ANTHROPIC_API_KEY and ECOSCAN_API_KEY to be set
-run:
-    go run ./go/service/cmd
+# Run the gRPC service (requires ANTHROPIC_API_KEY and ECOSCAN_API_KEY)
+run-grpc:
+    go run ./go/service/cmd/grpc
+
+# Run the HTTP gateway (requires GRPC_ADDR pointing at a running gRPC service)
+run-gateway:
+    go run ./go/service/cmd/gateway
 
 # Run all tests with race detection
 test:

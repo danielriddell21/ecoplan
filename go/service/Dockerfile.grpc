@@ -1,0 +1,14 @@
+FROM golang:1.24-alpine AS builder
+
+WORKDIR /app
+COPY . .
+RUN go mod download
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /grpc-service ./cmd/grpc
+
+FROM gcr.io/distroless/static:nonroot
+
+COPY --from=builder /grpc-service /grpc-service
+
+EXPOSE 50051 9090
+
+ENTRYPOINT ["/grpc-service"]
