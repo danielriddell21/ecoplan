@@ -85,3 +85,25 @@ func TestSearchMaterials_noMatch(t *testing.T) {
 		t.Errorf("expected 0 results, got %d", len(results))
 	}
 }
+
+func TestSearchMaterials_emptyDB(t *testing.T) {
+	db := models.MaterialsDB{Materials: map[string]models.Material{}}
+	results := db.SearchMaterials("plastic")
+	if len(results) != 0 {
+		t.Errorf("expected 0 results, got %d", len(results))
+	}
+}
+
+func TestSearchMaterials_stableOrder(t *testing.T) {
+	db := makeDB()
+	first := db.SearchMaterials("plastic")
+	second := db.SearchMaterials("plastic")
+	if len(first) != len(second) {
+		t.Fatalf("expected same count, got %d and %d", len(first), len(second))
+	}
+	for i := range first {
+		if first[i].Label != second[i].Label {
+			t.Errorf("index %d: ordering not stable between calls", i)
+		}
+	}
+}

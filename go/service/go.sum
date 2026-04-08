@@ -4,6 +4,10 @@ github.com/anthropics/anthropic-sdk-go v1.32.0 h1:Zc/ozxhi3yj7Z7692eM1Eg3Rc/4X58
 github.com/anthropics/anthropic-sdk-go v1.32.0/go.mod h1:dSIO7kSrOI7MA4fE6RRVaw8tyWP7HNQU5/H/KS4cax8=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
 github.com/cespare/xxhash/v2 v2.3.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
+github.com/danielriddell21/ordinex v1.2.0 h1:vHBEJ4VkRs5q1rgeOBDpzCFqZKNL0ksw7M/5L8B8KJ0=
+github.com/danielriddell21/ordinex v1.2.0/go.mod h1:jhdigkvFJRanvtPMZkWT8fqLs/5iSAQzD2SLz2yNv1Y=
+github.com/danielriddell21/retrievium v1.0.0 h1:TgOftnJpm96wGfvRV1AokwRM2Cygwo5Ts0fGDlOWpvA=
+github.com/danielriddell21/retrievium v1.0.0/go.mod h1:8f0c8xAzT7hSz5X6+Ga5OUpqwmuF9PYMJHd+QHcg6A4=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/go-logr/logr v1.4.3 h1:CjnDlHq8ikf6E492q6eKboGOC0T8CDaOvkHCIg8idEI=

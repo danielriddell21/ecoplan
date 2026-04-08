@@ -1,6 +1,12 @@
 package models
 
-import "strings"
+import (
+	"sort"
+	"strings"
+
+	"github.com/danielriddell21/ordinex"
+	"github.com/danielriddell21/retrievium"
+)
 
 type Material struct {
 	Label      string   `json:"label"`
@@ -40,13 +46,30 @@ func (db MaterialsDB) LookupMaterials(offTags []string) []Material {
 }
 
 // SearchMaterials returns all materials whose label contains the query string (case-insensitive).
+// Results are ordered by ordinex.MergeSorter and retrieved via retrievium.BinarySearcher.
 func (db MaterialsDB) SearchMaterials(query string) []Material {
-	results := []Material{}
+	keys := make([]string, 0, len(db.Materials))
+	for k := range db.Materials {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
 	query = strings.ToLower(strings.TrimSpace(query))
-	for _, material := range db.Materials {
-		if strings.Contains(strings.ToLower(material.Label), query) {
-			results = append(results, material)
+	var matchedIDs []int
+	for i, k := range keys {
+		if strings.Contains(strings.ToLower(db.Materials[k].Label), query) {
+			matchedIDs = append(matchedIDs, i)
 		}
+	}
+
+	sortedIDs := ordinex.MergeSorter{}.Sort(matchedIDs)
+	searcher := retrievium.BinarySearcher{}
+	results := make([]Material, 0, len(sortedIDs))
+	for _, id := range sortedIDs {
+		if searcher.Search(sortedIDs, id) < 0 {
+			continue
+		}
+		results = append(results, db.Materials[keys[id]])
 	}
 	return results
 }
