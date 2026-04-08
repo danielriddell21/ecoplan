@@ -5,13 +5,14 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/ecoscan/service/internal/providers/providerstest"
 	pb "github.com/ecoscan/service/proto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 func TestCanItBeRecycledSearch_validation(t *testing.T) {
-	svc := newTestService(t, &stubResolver{}, &stubClassifier{})
+	svc := newTestService(t, &providerstest.StubResolver{}, &providerstest.StubClassifier{})
 	cases := []struct {
 		name  string
 		query string
@@ -32,7 +33,7 @@ func TestCanItBeRecycledSearch_validation(t *testing.T) {
 }
 
 func TestCanItBeRecycledSearch_noResults(t *testing.T) {
-	svc := newTestService(t, &stubResolver{}, &stubClassifier{})
+	svc := newTestService(t, &providerstest.StubResolver{}, &providerstest.StubClassifier{})
 	resp, err := svc.CanItBeRecycledSearch(context.Background(), &pb.CanItBeRecycledSearchRequest{Query: "xyzzy_no_match"})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -43,7 +44,7 @@ func TestCanItBeRecycledSearch_noResults(t *testing.T) {
 }
 
 func TestCanItBeRecycledSearch_caseInsensitive(t *testing.T) {
-	svc := newTestService(t, &stubResolver{}, &stubClassifier{})
+	svc := newTestService(t, &providerstest.StubResolver{}, &providerstest.StubClassifier{})
 
 	lower, err := svc.CanItBeRecycledSearch(context.Background(), &pb.CanItBeRecycledSearchRequest{Query: "glass"})
 	if err != nil {
@@ -65,7 +66,7 @@ func TestCanItBeRecycledSearch_caseInsensitive(t *testing.T) {
 // TestCanItBeRecycledSearch_deterministicOrdering verifies that ordinex produces a
 // stable result order across repeated calls (map iteration is otherwise non-deterministic).
 func TestCanItBeRecycledSearch_deterministicOrdering(t *testing.T) {
-	svc := newTestService(t, &stubResolver{}, &stubClassifier{})
+	svc := newTestService(t, &providerstest.StubResolver{}, &providerstest.StubClassifier{})
 
 	resp1, err := svc.CanItBeRecycledSearch(context.Background(), &pb.CanItBeRecycledSearchRequest{Query: "plastic"})
 	if err != nil {
@@ -92,7 +93,7 @@ func TestCanItBeRecycledSearch_deterministicOrdering(t *testing.T) {
 // TestCanItBeRecycledSearch_noDuplicates verifies that retrievium's binary search
 // deduplication guard prevents the same material appearing more than once.
 func TestCanItBeRecycledSearch_noDuplicates(t *testing.T) {
-	svc := newTestService(t, &stubResolver{}, &stubClassifier{})
+	svc := newTestService(t, &providerstest.StubResolver{}, &providerstest.StubClassifier{})
 
 	resp, err := svc.CanItBeRecycledSearch(context.Background(), &pb.CanItBeRecycledSearchRequest{Query: "plastic"})
 	if err != nil {
@@ -109,7 +110,7 @@ func TestCanItBeRecycledSearch_noDuplicates(t *testing.T) {
 }
 
 func TestCanItBeRecycledSearch_recyclableGlass(t *testing.T) {
-	svc := newTestService(t, &stubResolver{}, &stubClassifier{})
+	svc := newTestService(t, &providerstest.StubResolver{}, &providerstest.StubClassifier{})
 
 	resp, err := svc.CanItBeRecycledSearch(context.Background(), &pb.CanItBeRecycledSearchRequest{Query: "glass bottles"})
 	if err != nil {
@@ -132,7 +133,7 @@ func TestCanItBeRecycledSearch_recyclableGlass(t *testing.T) {
 }
 
 func TestCanItBeRecycledSearch_nonRecyclableItem(t *testing.T) {
-	svc := newTestService(t, &stubResolver{}, &stubClassifier{})
+	svc := newTestService(t, &providerstest.StubResolver{}, &providerstest.StubClassifier{})
 
 	resp, err := svc.CanItBeRecycledSearch(context.Background(), &pb.CanItBeRecycledSearchRequest{Query: "black plastic"})
 	if err != nil {
@@ -149,7 +150,7 @@ func TestCanItBeRecycledSearch_nonRecyclableItem(t *testing.T) {
 }
 
 func TestCanItBeRecycledSearch_maxLengthQueryIsAccepted(t *testing.T) {
-	svc := newTestService(t, &stubResolver{}, &stubClassifier{})
+	svc := newTestService(t, &providerstest.StubResolver{}, &providerstest.StubClassifier{})
 
 	resp, err := svc.CanItBeRecycledSearch(context.Background(), &pb.CanItBeRecycledSearchRequest{Query: strings.Repeat("a", 200)})
 	if err != nil {

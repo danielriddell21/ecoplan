@@ -7,13 +7,14 @@ import (
 	"testing"
 
 	"github.com/ecoscan/service/internal/providers"
+	"github.com/ecoscan/service/internal/providers/providerstest"
 	pb "github.com/ecoscan/service/proto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 func TestCanItBeRecycledImage_invalidRequest(t *testing.T) {
-	svc := newTestService(t, &stubResolver{}, &stubClassifier{})
+	svc := newTestService(t, &providerstest.StubResolver{}, &providerstest.StubClassifier{})
 	cases := []struct {
 		name  string
 		image []byte
@@ -42,7 +43,7 @@ func TestCanItBeRecycledImage_classifierErrors(t *testing.T) {
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			svc := newTestService(t, &stubResolver{}, &stubClassifier{err: tc.err})
+			svc := newTestService(t, &providerstest.StubResolver{}, &providerstest.StubClassifier{Err: tc.err})
 			_, err := svc.CanItBeRecycledImage(context.Background(), &pb.CanItBeRecycledImageRequest{Image: []byte{1}})
 			if status.Code(err) != tc.wantCode {
 				t.Errorf("expected %v, got %v", tc.wantCode, err)
@@ -52,7 +53,7 @@ func TestCanItBeRecycledImage_classifierErrors(t *testing.T) {
 }
 
 func TestCanItBeRecycledImage_noMaterialsFound(t *testing.T) {
-	svc := newTestService(t, &stubResolver{}, &stubClassifier{item: "an alien artefact"})
+	svc := newTestService(t, &providerstest.StubResolver{}, &providerstest.StubClassifier{Item: "an alien artefact"})
 	resp, err := svc.CanItBeRecycledImage(context.Background(), &pb.CanItBeRecycledImageRequest{Image: []byte{1}})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -66,7 +67,7 @@ func TestCanItBeRecycledImage_noMaterialsFound(t *testing.T) {
 }
 
 func TestCanItBeRecycledImage_knownRecyclableMaterial(t *testing.T) {
-	svc := newTestService(t, &stubResolver{}, &stubClassifier{item: "plastic bottle"})
+	svc := newTestService(t, &providerstest.StubResolver{}, &providerstest.StubClassifier{Item: "plastic bottle"})
 	resp, err := svc.CanItBeRecycledImage(context.Background(), &pb.CanItBeRecycledImageRequest{Image: []byte{1}})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)

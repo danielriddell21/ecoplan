@@ -6,14 +6,14 @@ import (
 	"testing"
 
 	"github.com/ecoscan/service/internal/providers"
+	"github.com/ecoscan/service/internal/providers/providerstest"
+	pb "github.com/ecoscan/service/proto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-
-	pb "github.com/ecoscan/service/proto"
 )
 
 func TestCanItBeRecycledBarcode_invalidBarcode(t *testing.T) {
-	svc := newTestService(t, &stubResolver{}, &stubClassifier{})
+	svc := newTestService(t, &providerstest.StubResolver{}, &providerstest.StubClassifier{})
 	cases := []string{"", "123", "not-a-barcode", "123456789012345"} // too short / non-digit / too long
 	for _, bc := range cases {
 		_, err := svc.CanItBeRecycledBarcode(context.Background(), &pb.CanItBeRecycledBarcodeRequest{Barcode: bc})
@@ -24,8 +24,8 @@ func TestCanItBeRecycledBarcode_invalidBarcode(t *testing.T) {
 }
 
 func TestCanItBeRecycledBarcode_notFound(t *testing.T) {
-	resolver := &stubResolver{err: providers.ErrNotFound}
-	svc := newTestService(t, resolver, &stubClassifier{})
+	resolver := &providerstest.StubResolver{Err: providers.ErrNotFound}
+	svc := newTestService(t, resolver, &providerstest.StubClassifier{})
 
 	_, err := svc.CanItBeRecycledBarcode(context.Background(), &pb.CanItBeRecycledBarcodeRequest{Barcode: "12345678"})
 	if status.Code(err) != codes.NotFound {
@@ -34,8 +34,8 @@ func TestCanItBeRecycledBarcode_notFound(t *testing.T) {
 }
 
 func TestCanItBeRecycledBarcode_upstreamError(t *testing.T) {
-	resolver := &stubResolver{err: errors.New("timeout")}
-	svc := newTestService(t, resolver, &stubClassifier{})
+	resolver := &providerstest.StubResolver{Err: errors.New("timeout")}
+	svc := newTestService(t, resolver, &providerstest.StubClassifier{})
 
 	_, err := svc.CanItBeRecycledBarcode(context.Background(), &pb.CanItBeRecycledBarcodeRequest{Barcode: "12345678"})
 	if status.Code(err) != codes.Internal {
@@ -44,21 +44,21 @@ func TestCanItBeRecycledBarcode_upstreamError(t *testing.T) {
 }
 
 func TestCanItBeRecycledBarcode_cacheHit(t *testing.T) {
-	resolver := &stubResolver{
-		result: providers.BarcodeResult{
+	resolver := &providerstest.StubResolver{
+		Result: providers.BarcodeResult{
 			PackagingTags: []string{"en:plastic-bottle"},
 			ProductName:   "Test Product",
 			Brand:         "TestBrand",
 		},
 	}
-	svc := newTestService(t, resolver, &stubClassifier{})
+	svc := newTestService(t, resolver, &providerstest.StubClassifier{})
 
 	req := &pb.CanItBeRecycledBarcodeRequest{Barcode: "12345678"}
 	_, _ = svc.CanItBeRecycledBarcode(context.Background(), req)
 	_, _ = svc.CanItBeRecycledBarcode(context.Background(), req)
 
 	// Resolver should only be called once due to caching.
-	if resolver.calls != 1 {
-		t.Errorf("expected resolver called once, got %d", resolver.calls)
+	if resolver.Calls.Load() != 1 {
+		t.Errorf("expected resolver called once, got %d", resolver.Calls.Load())
 	}
 }
