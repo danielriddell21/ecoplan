@@ -7,6 +7,9 @@ import (
 	"net/http"
 	"os"
 
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
+
 	"github.com/ecoscan/service/internal/config"
 	"github.com/ecoscan/service/internal/providers"
 	"github.com/ecoscan/service/internal/service"
@@ -87,5 +90,5 @@ func run() error {
 	}
 
 	log.Info("starting gRPC server", "port", cfg.GRPCPort)
-	return grpcServer.Serve(lis)
+	return http.Serve(lis, h2c.NewHandler(grpcServer, &http2.Server{}))
 }
