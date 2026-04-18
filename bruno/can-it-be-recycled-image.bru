@@ -1,0 +1,21 @@
+meta {
+  name: Can It Be Recycled - Image
+  type: grpc
+  seq: 3
+}
+
+grpc {
+  url: {{grpc_host}}
+  method: recycling.v1.RecyclingService/CanItBeRecycledImage
+}
+
+body {
+  {
+    "image": "<base64-encoded-image-bytes>",
+    "council_id": "portsmouth"
+  }
+}
+
+headers {
+  authorization: Bearer {{api_key}}
+}
