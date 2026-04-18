@@ -15,13 +15,7 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "ecoplan" {
   config {
     ingress_rule {
       hostname = "api.${var.domain}"
-      service  = "https://ecoscan-service:50051"
-
-      origin_request {
-        http2_origin             = true
-        no_tls_verify            = true
-        disable_chunked_encoding = true
-      }
+      service  = "grpc://ecoscan-service:50051"
     }
     ingress_rule {
       service = "http_status:404"

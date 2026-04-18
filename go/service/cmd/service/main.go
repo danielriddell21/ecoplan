@@ -15,7 +15,6 @@ import (
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
 )
@@ -47,7 +46,7 @@ func run() error {
 		return fmt.Errorf("initialising service: %w", err)
 	}
 
-	opts := []grpc.ServerOption{
+	grpcServer := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
 			middleware.UnaryLogging(log),
 			middleware.UnaryAuth(cfg.APIKey),
@@ -57,16 +56,7 @@ func run() error {
 				10,
 			),
 		),
-	}
-	if _, err := os.Stat("/etc/tls/tls.crt"); err == nil {
-		creds, err := credentials.NewServerTLSFromFile("/etc/tls/tls.crt", "/etc/tls/tls.key")
-		if err != nil {
-			return fmt.Errorf("TLS credentials: %w", err)
-		}
-		opts = append(opts, grpc.Creds(creds))
-	}
-
-	grpcServer := grpc.NewServer(opts...)
+	)
 
 	pb.RegisterRecyclingServiceServer(grpcServer, svc)
 
