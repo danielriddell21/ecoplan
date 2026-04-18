@@ -15,10 +15,11 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "ecoplan" {
   config {
     ingress_rule {
       hostname = "api.${var.domain}"
-      service  = "h2c://ecoscan-service:50051"
+      service  = "http://ecoscan-service:50051"
 
       origin_request {
-        http2_origin = true
+        http2_origin              = true
+        disable_chunked_encoding  = true
       }
     }
     ingress_rule {
