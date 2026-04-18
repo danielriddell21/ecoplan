@@ -34,9 +34,7 @@ The gateway connects to the gRPC service via `GRPC_ADDR`. Run the service first 
 **Docker:**
 
 ```bash
-just docker           # build both service and gateway images
-just docker service   # service image only
-just docker gateway   # gateway image only
+just docker           # build service image
 ```
 
 **Proto generation:**
