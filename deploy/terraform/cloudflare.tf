@@ -18,8 +18,8 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "ecoplan" {
       service  = "http://ecoscan-service:50051"
 
       origin_request {
-        http2_origin              = true
-        disable_chunked_encoding  = true
+        http2_origin             = true
+        disable_chunked_encoding = true
       }
     }
     ingress_rule {
