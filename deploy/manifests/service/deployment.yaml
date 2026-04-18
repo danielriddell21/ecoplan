@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ecoscan-service
-          image: ghcr.io/danielriddell21/ecoplan:v0.1.2
+          image: ghcr.io/danielriddell21/ecoplan:v0.1.3
           ports:
             - name: grpc
               containerPort: 50051
