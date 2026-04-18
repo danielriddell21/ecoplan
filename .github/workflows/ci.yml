@@ -3,9 +3,19 @@ name: CI
 on:
   push:
     branches: ["trunk"]
+    paths-ignore:
+      - "deploy/**"
+      - "**/*.md"
+      - "bruno/**"
   pull_request:
     branches: ["trunk"]
-  workflow_dispatch:
+    paths-ignore:
+      - "deploy/**"
+      - "**/*.md"
+      - "bruno/**"
+
+permissions:
+  contents: read
 
 jobs:
   lint:
@@ -41,82 +51,25 @@ jobs:
       - name: Test
         run: go test ./go/service/... -race -count=1
 
-  docker-service:
-    name: Docker Build (service)
+  tag:
+    name: Tag
     runs-on: ubuntu-latest
     needs: [lint, test]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/trunk'
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v6
-
-      - uses: docker/setup-buildx-action@v4
-
-      - name: Build service image
-        uses: docker/build-push-action@v7
         with:
-          context: go/service
-          file: go/service/Dockerfile.service
-          push: false
-          tags: ecoplan/service:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          fetch-depth: 0
 
-  docker-gateway:
-    name: Docker Build (gateway)
-    runs-on: ubuntu-latest
-    needs: [lint, test]
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: docker/setup-buildx-action@v4
-
-      - name: Build gateway image
-        uses: docker/build-push-action@v7
+      - name: Bump version and push tag
+        uses: mathieudutour/github-tag-action@v6.2
         with:
-          context: go/service
-          file: go/service/Dockerfile.gateway
-          push: false
-          tags: ecoplan/gateway:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-  push:
-    name: Push Images
-    runs-on: ubuntu-latest
-    needs: [docker-service, docker-gateway]
-    if: github.event_name == 'workflow_dispatch'
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: docker/setup-buildx-action@v4
-
-      - uses: docker/login-action@v4
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Push service image
-        uses: docker/build-push-action@v7
-        with:
-          context: go/service
-          file: go/service/Dockerfile.service
-          push: true
-          tags: |
-            ecoplan/service:${{ github.sha }}
-            ecoplan/service:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Push gateway image
-        uses: docker/build-push-action@v7
-        with:
-          context: go/service
-          file: go/service/Dockerfile.gateway
-          push: true
-          tags: |
-            ecoplan/gateway:${{ github.sha }}
-            ecoplan/gateway:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # PAT required so the tag push triggers release.yaml — GITHUB_TOKEN pushes
+          # don't fire downstream workflows.
+          github_token: ${{ secrets.RELEASE_TOKEN }}
+          default_bump: false
+          tag_prefix: v
+          release_branches: trunk

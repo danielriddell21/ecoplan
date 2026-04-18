@@ -1,6 +1,10 @@
 # Go
 go/service/tmp/
 go/service/bin/
+go/service/service
+
+# GoReleaser
+dist/
 
 # Environment
 .env

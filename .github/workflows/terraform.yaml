@@ -1,0 +1,117 @@
+name: Terraform
+
+on:
+  push:
+    branches: [trunk]
+    paths: [deploy/terraform/**]
+  pull_request:
+    paths: [deploy/terraform/**]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  TF_VAR_hetzner_token: ${{ secrets.HETZNER_TOKEN }}
+  TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+  TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  TF_VAR_cloudflare_zone_id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+  TF_VAR_domain: 'ecoplan.uk'
+  AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: deploy/terraform
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.6"
+
+      - name: fmt
+        run: terraform fmt -check -recursive
+
+      - name: init
+        run: terraform init -backend-config=backend.hcl
+
+      - name: validate
+        run: terraform validate
+
+  plan:
+    name: plan
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: terraform-plan
+    defaults:
+      run:
+        working-directory: deploy/terraform
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.6"
+
+      - name: init
+        run: terraform init -backend-config=backend.hcl
+
+      - name: plan
+        run: |
+          terraform plan -no-color -input=false -out=tfplan
+          terraform show -json tfplan > plan.json
+
+      - name: summary
+        uses: ./.github/actions/tf-plan-summary
+        with:
+          plan-file: deploy/terraform/plan.json
+
+      - name: upload plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan
+          path: deploy/terraform/tfplan
+          retention-days: 1
+
+  apply:
+    name: apply
+    needs: plan
+    runs-on: ubuntu-latest
+    environment: terraform-apply
+    if: github.ref == 'refs/heads/trunk' || github.event_name == 'workflow_dispatch'
+    defaults:
+      run:
+        working-directory: deploy/terraform
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.6"
+
+      - name: init
+        run: terraform init -backend-config=backend.hcl
+
+      - name: download plan
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan
+          path: deploy/terraform/
+
+      - name: apply
+        run: terraform apply -auto-approve -input=false tfplan
+
+      - name: upload errored state
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: errored-tfstate
+          path: deploy/terraform/errored.tfstate
+          retention-days: 7

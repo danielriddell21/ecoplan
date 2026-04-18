@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecoscan-service
+  namespace: ecoplan
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: ecoscan-service
+  template:
+    metadata:
+      labels:
+        app: ecoscan-service
+    spec:
+      containers:
+        - name: ecoscan-service
+          image: ghcr.io/danielriddell21/ecoplan:latest
+          ports:
+            - name: grpc
+              containerPort: 50051
+            - name: metrics
+              containerPort: 9090
+          envFrom:
+            - configMapRef:
+                name: ecoscan-config
+          env:
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ecoscan-secret
+                  key: anthropic-api-key
+            - name: ECOSCAN_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ecoscan-secret
+                  key: ecoscan-api-key
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 9090
+            initialDelaySeconds: 2
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 9090
+            initialDelaySeconds: 10
+            periodSeconds: 30

@@ -1,0 +1,55 @@
+version: 2
+
+project_name: ecoscan-service
+
+builds:
+  - id: service
+    main: ./go/service/cmd/service
+    binary: service
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+
+# Server binary — no need to publish user-facing archives.
+archives:
+  - id: service
+    ids: [service]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: "{{ .ProjectName }}_{{ .Version }}_checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - Merge pull request
+      - Merge branch
+
+dockers:
+  - goos: linux
+    goarch: amd64
+    ids: [service]
+    dockerfile: go/service/Dockerfile
+    image_templates:
+      - "ghcr.io/danielriddell21/ecoplan:{{ .Tag }}"
+      - "ghcr.io/danielriddell21/ecoplan:edge"
+    use: buildx
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - "--label=org.opencontainers.image.version={{ .Version }}"
+      - "--label=org.opencontainers.image.source=https://github.com/danielriddell21/ecoplan"
+
+release:
+  github:
+    owner: danielriddell21
+    name: ecoplan
+  name_template: "v{{ .Version }}"

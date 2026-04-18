@@ -6,7 +6,7 @@ default:
 run type="all":
     #!/usr/bin/env bash
     set -e
-    case "{{type}}" in
+    case "{{ type }}" in
         service) just _run-service ;;
         gateway) just _run-gateway ;;
         all)
@@ -14,7 +14,7 @@ run type="all":
             just _run-service &
             just _run-gateway &
             wait ;;
-        *) echo "unknown type: {{type}}"; exit 1 ;;
+        *) echo "unknown type: {{ type }}"; exit 1 ;;
     esac
 
 [private]
@@ -33,26 +33,10 @@ lint:
 test:
     go test ./go/service/... -count=1
 
-# Build Docker images — `just docker` builds both, `just docker service` or `just docker gateway` builds one
-docker type="all":
-    #!/usr/bin/env bash
-    set -e
-    case "{{type}}" in
-        service) just _docker-service ;;
-        gateway) just _docker-gateway ;;
-        all)
-            just _docker-service
-            just _docker-gateway ;;
-        *) echo "unknown type: {{type}}"; exit 1 ;;
-    esac
-
-[private]
-_docker-service:
-    cd go/service && docker build -f Dockerfile.service -t ecoscan/service .
-
-[private]
-_docker-gateway:
-    cd go/service && docker build -f Dockerfile.gateway -t ecoscan/gateway .
+# Build the service Docker image (mirrors GoReleaser: go build → docker build)
+docker:
+    cd go/service && CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o service ./cmd/service
+    cd go/service && docker build -t ecoscan/service .
 
 # Generate Go code from proto/recycling.proto (run `just setup` first)
 gen:
