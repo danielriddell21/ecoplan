@@ -2,5 +2,18 @@
   "version": "1",
   "name": "Ecoscan gRPC",
   "type": "collection",
-  "ignore": []
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "size": 0.0010213851928710938,
+  "filesCount": 5,
+  "protobuf": {
+    "protoFiles": [
+      {
+        "path": "../proto/recycling/v1/recycling.proto",
+        "type": "file"
+      }
+    ]
+  }
 }

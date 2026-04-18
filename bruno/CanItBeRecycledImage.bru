@@ -1,0 +1,24 @@
+meta {
+  name: CanItBeRecycledImage
+  type: grpc
+  seq: 4
+}
+
+grpc {
+  url: {{grpc_host}}
+  method: /recycling.v1.RecyclingService/CanItBeRecycledImage
+  body: grpc
+  protoPath: ../proto/recycling/v1/recycling.proto
+  auth: inherit
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "image": "<base64-encoded-image-bytes>",
+      "council_id": "portsmouth"
+    }
+  '''
+}

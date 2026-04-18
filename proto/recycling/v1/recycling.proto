@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package recycling.v1;
 
-import "google/api/annotations.proto";
+// import "google/api/annotations.proto";
 
 option go_package = "github.com/ecoscan/service/proto";
 
@@ -60,22 +60,22 @@ message CanItBeRecycledImageResponse {
 
 service RecyclingService {
   rpc CanItBeRecycledBarcode(CanItBeRecycledBarcodeRequest) returns (CanItBeRecycledBarcodeResponse) {
-    option (google.api.http) = {
-      post: "/v1/recycle/barcode"
-      body: "*"
-    };
+    // option (google.api.http) = {
+    //   post: "/v1/recycle/barcode"
+    //   body: "*"
+    // };
   }
 
   rpc CanItBeRecycledSearch(CanItBeRecycledSearchRequest) returns (CanItBeRecycledSearchResponse) {
-    option (google.api.http) = {
-      get: "/v1/recycle/search"
-    };
+    // option (google.api.http) = {
+    //   get: "/v1/recycle/search"
+    // };
   }
 
   rpc CanItBeRecycledImage(CanItBeRecycledImageRequest) returns (CanItBeRecycledImageResponse) {
-    option (google.api.http) = {
-      post: "/v1/recycle/image"
-      body: "*"
-    };
+    // option (google.api.http) = {
+    //   post: "/v1/recycle/image"
+    //   body: "*"
+    // };
   }
 }

@@ -1,0 +1,24 @@
+meta {
+  name: CanItBeRecycledBarcode
+  type: grpc
+  seq: 1
+}
+
+grpc {
+  url: {{grpc_host}}
+  method: /recycling.v1.RecyclingService/CanItBeRecycledBarcode
+  body: grpc
+  protoPath: ../proto/recycling/v1/recycling.proto
+  auth: inherit
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "barcode": "5000112546415",
+      "council_id": "portsmouth"
+    }
+  '''
+}
