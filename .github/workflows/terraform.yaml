@@ -74,7 +74,7 @@ jobs:
           plan-file: deploy/terraform/plan.json
 
       - name: upload plan
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: tfplan
           path: deploy/terraform/tfplan
@@ -110,7 +110,7 @@ jobs:
 
       - name: upload errored state
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: errored-tfstate
           path: deploy/terraform/errored.tfstate
