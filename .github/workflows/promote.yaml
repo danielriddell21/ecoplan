@@ -39,13 +39,13 @@ jobs:
         run: |
           VERSION=${{ github.event.release.tag_name }}
           sed -i "s|image: ghcr.io/ecoscan-uk/ecoscan:.*|image: ghcr.io/ecoscan-uk/ecoscan:${VERSION}|g" \
-            deploy/manifests/service/deployment.yaml
+            manifests/service/deployment.yaml
 
       - name: Commit and push
         run: |
           VERSION=${{ github.event.release.tag_name }}
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add deploy/manifests/service/deployment.yaml
+          git add manifests/service/deployment.yaml
           git diff --staged --quiet || git commit -m "chore: deploy ${VERSION}"
           git push

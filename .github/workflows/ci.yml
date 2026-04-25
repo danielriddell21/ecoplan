@@ -4,13 +4,11 @@ on:
   push:
     branches: ["trunk"]
     paths-ignore:
-      - "deploy/**"
       - "**/*.md"
       - "bruno/**"
   pull_request:
     branches: ["trunk"]
     paths-ignore:
-      - "deploy/**"
       - "**/*.md"
       - "bruno/**"
 
