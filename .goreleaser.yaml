@@ -40,16 +40,16 @@ dockers:
     ids: [service]
     dockerfile: go/service/Dockerfile
     image_templates:
-      - "ghcr.io/danielriddell21/ecoplan:{{ .Tag }}"
-      - "ghcr.io/danielriddell21/ecoplan:edge"
+      - "ghcr.io/ecoscan-uk/ecoscan:{{ .Tag }}"
+      - "ghcr.io/ecoscan-uk/ecoscan:edge"
     use: buildx
     build_flag_templates:
       - "--platform=linux/amd64"
       - "--label=org.opencontainers.image.version={{ .Version }}"
-      - "--label=org.opencontainers.image.source=https://github.com/danielriddell21/ecoplan"
+      - "--label=org.opencontainers.image.source=https://github.com/ecoscan-uk/backend"
 
 release:
   github:
-    owner: danielriddell21
-    name: ecoplan
+    owner: ecoscan-uk
+    name: backend
   name_template: "v{{ .Version }}"

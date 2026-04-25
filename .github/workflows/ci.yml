@@ -69,7 +69,7 @@ jobs:
         with:
           # PAT required so the tag push triggers release.yaml — GITHUB_TOKEN pushes
           # don't fire downstream workflows.
-          github_token: ${{ secrets.RELEASE_TOKEN }}
+          github_token: ${{ secrets.RELEASE_GITHUB_TOKEN }}
           default_bump: false
           tag_prefix: v
           release_branches: trunk

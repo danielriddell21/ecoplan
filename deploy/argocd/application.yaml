@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/danielriddell21/ecoplan
+    repoURL: https://github.com/ecoscan-uk/infra
     targetRevision: trunk
     path: deploy/manifests
     directory:

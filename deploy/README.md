@@ -102,7 +102,7 @@ kubectl port-forward -n ecoplan svc/grafana 3000:3000
 
 1. Merge a conventional-commits feat/fix to `trunk`.
 2. CI's `tag` job creates a new `vX.Y.Z` git tag.
-3. `.github/workflows/release.yaml` builds and pushes `ghcr.io/danielriddell21/ecoplan:vX.Y.Z`
+3. `.github/workflows/release.yaml` builds and pushes `ghcr.io/ecoscan-uk/ecoscan:vX.Y.Z`
    and `:edge` to GHCR, then cuts a GitHub Release.
 4. `.github/workflows/promote.yaml` retags `:latest`, rewrites
    `deploy/manifests/service/deployment.yaml`, commits `chore: deploy vX.Y.Z`

@@ -20,26 +20,25 @@ jobs:
       - name: Retag as latest
         run: |
           VERSION=${{ github.event.release.tag_name }}
-          docker pull ghcr.io/danielriddell21/ecoplan:${VERSION}
-          docker tag  ghcr.io/danielriddell21/ecoplan:${VERSION} ghcr.io/danielriddell21/ecoplan:latest
-          docker push ghcr.io/danielriddell21/ecoplan:latest
+          docker pull ghcr.io/ecoscan-uk/ecoscan:${VERSION}
+          docker tag  ghcr.io/ecoscan-uk/ecoscan:${VERSION} ghcr.io/ecoscan-uk/ecoscan:latest
+          docker push ghcr.io/ecoscan-uk/ecoscan:latest
 
   update-manifests:
     name: Pin version in deploy/manifests
     needs: retag
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v6
         with:
+          repository: ecoscan-uk/infra
           ref: trunk
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.INFRA_GITHUB_TOKEN }}
 
       - name: Update image tag
         run: |
           VERSION=${{ github.event.release.tag_name }}
-          sed -i "s|image: ghcr.io/danielriddell21/ecoplan:.*|image: ghcr.io/danielriddell21/ecoplan:${VERSION}|g" \
+          sed -i "s|image: ghcr.io/ecoscan-uk/ecoscan:.*|image: ghcr.io/ecoscan-uk/ecoscan:${VERSION}|g" \
             deploy/manifests/service/deployment.yaml
 
       - name: Commit and push
